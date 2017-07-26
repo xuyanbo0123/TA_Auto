@@ -1,0 +1,3 @@
+INSERT INTO `Buyer` VALUES ('5', '2013-11-07 00:00:00', '0000-00-00 00:00:00', 'aggregator', 'ReviMedia', null);
+INSERT INTO `Buyer_Account` VALUES ('11', '2013-11-07 00:00:00', '0000-00-00 00:00:00', '5', '3', 'ReviMediaForAutoInsurance', 'pending');
+INSERT INTO `Buyer_Account_Config` VALUES ('10', '2013-11-07 00:00:00', '0000-00-00 00:00:00', '11', 'LEAD_RULE', '{\"children\": [\"true\"]}', 'http://', '-1', '0', '201');

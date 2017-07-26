@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebJuiceLeadResponse>
+    <Response>ERROR</Response>
+    <ErrorList>
+        <Error>
+            <Field>repossession1</Field>
+            <Message>Repossession1 status is invalid</Message>
+        </Error>
+        <Error>
+            <Field>repossession2</Field>
+            <Message>Repossession2 status is invalid</Message>
+        </Error>
+    </ErrorList>
+</WebJuiceLeadResponse>

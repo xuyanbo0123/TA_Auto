@@ -1,0 +1,23 @@
+<Health_Ads zip_code="02115">
+    <Ad>
+        <Headline_Text><![CDATA[Great Service from Company A]]></Headline_Text>
+        <Detail_Text><![CDATA[<ul><li>Good service.</li><li>Competitive Price</li><li>Save up to $200 a year</li></ul>]]></Detail_Text>
+        <Logo><![CDATA[http://www.abc.com/images/123.gif]]></Logo>
+        <Link_Text><![CDATA[www.health.com]]></Link_Text>
+        <Link><![CDATA[http://www.abc.com/click?wid=12345]]></Link>
+    </Ad>
+    <Ad>
+        <Headline_Text><![CDATA[Great Savings from Company B]]></Headline_Text>
+        <Detail_Text><![CDATA[<ul><li>Competitive Price</li><li>Save up to $500 a year</li></ul>]]></Detail_Text>
+        <Logo><![CDATA[http://www.abc.com/images/234.gif]]></Logo>
+        <Link_Text><![CDATA[www.save_health.com]]></Link_Text>
+        <Link><![CDATA[http://www.save_health.com/click?wid=123]]></Link>
+    </Ad>
+    <Ad>
+        <Headline_Text><![CDATA[Health Insurance Savings]]></Headline_Text>
+        <Detail_Text><![CDATA[<ul><li>Save up to $300 a year</li><li>Call 123-456-7890 now!</li></ul>]]></Detail_Text>
+        <Logo><![CDATA[http://www.abc.com/images/456.gif]]></Logo>
+        <Link_Text><![CDATA[www.savings.com]]></Link_Text>
+        <Link><![CDATA[http://www.savings.com/goto?tracking_id=567]]></Link>
+    </Ad>
+</Health_Ads>

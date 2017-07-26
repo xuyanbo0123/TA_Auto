@@ -1,0 +1,1 @@
+INSERT INTO `Buyer_Account_Config` VALUES ('4', '2013-08-05 00:00:00', '0000-00-00 00:00:00', '2', 'LEAD_RULE', '{\"children\": [\"true\"]}', 'mailto:xavierk@trendanalytical.com', '10', '0', '300');

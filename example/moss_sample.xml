@@ -1,0 +1,135 @@
+<MSALead Version="1.0">
+    <LeadSourceData>
+        <AffiliateLogin>CD1</AffiliateLogin>
+        <AffiliatePassword>mosscd1</AffiliatePassword>
+        <ConsumerIP>166.250.65.220</ConsumerIP>
+        <LeadSource>EmailCampaign</LeadSource>
+        <LeadSubSource>EM123</LeadSubSource>
+        <AffiliateLeadID>2345678</AffiliateLeadID>
+        <ConsumerLeadID>54645646464564</ConsumerLeadID>
+        <LeadCreationDate>2002-05-30T09:00:00</LeadCreationDate>
+    </LeadSourceData>
+    <LeadData>
+        <ContactDetails>
+            <FirstName>Roberta</FirstName>
+            <LastName>Doe</LastName>
+            <StreetAddress>320 Highland Street</StreetAddress>
+            <City>MIDDLESEX</City>
+            <State>NJ</State>
+            <ZIPCode>08846</ZIPCode>
+            <Email>rdoe@gmail.com</Email>
+            <PhoneNumbers>
+                <PhoneNumber Type="Work">
+                    <Number>7329268135</Number>
+                </PhoneNumber>
+                <PhoneNumber Type="Home">
+                    <Number>7329267889</Number>
+                </PhoneNumber>
+                <PhoneNumber Type="Cell">
+                    <Number>4155655698</Number>
+                </PhoneNumber>
+            </PhoneNumbers>
+            <ResidenceStatus YearsAt="10+" MonthsAt="0">Own</ResidenceStatus>
+            <TCPAOptIn>Yes</TCPAOptIn>
+        </ContactDetails>
+        <InsurancePolicy>
+            <NewPolicy>
+                <RequestedCoverage>Standard Protection</RequestedCoverage>
+            </NewPolicy>
+            <PriorPolicy CurrentlyInsured="Yes">
+                <InsuranceCompany YearsWith="13" MonthsWith="0">16</InsuranceCompany>
+                <YearsContinuous>5</YearsContinuous>
+                <MonthsContinuous>3</MonthsContinuous>
+                <PolicyExpirationDate>2011-12-15</PolicyExpirationDate>
+            </PriorPolicy>
+        </InsurancePolicy>
+        <AutoLead>
+            <Vehicles>
+                <Vehicle VehicleID="1" Ownership="Yes">
+                    <VehicleData>
+                        <VehYear>1999</VehYear>
+                        <VehMake>BUICK</VehMake>
+                        <VehModel>REGAL GS/GSE</VehModel>
+                        <VehSubmodel>SEDAN 4 DOOR</VehSubmodel>
+                    </VehicleData>
+                    <VehUse AnnualMiles="12500" WeeklyCommuteDays="5" DailyCommuteMiles="5">Farm</VehUse>
+                    <ComphrensiveDeductible>500</ComphrensiveDeductible>
+                    <CollisionDeductible>500</CollisionDeductible>
+                    <GarageType>No Cover</GarageType>
+                </Vehicle>
+                <Vehicle VehicleID="2" Ownership="Yes">
+                    <VehicleData>
+                        <VehYear>2002</VehYear>
+                        <VehMake>NISSAN</VehMake>
+                        <VehModel>FRONTIER XE/SE</VehModel>
+                        <VehSubmodel>CREW PICKUP</VehSubmodel>
+                    </VehicleData>
+                    <VehUse AnnualMiles="12500" WeeklyCommuteDays="5" DailyCommuteMiles="50">CommuteWork</VehUse>
+                    <ComphrensiveDeductible>500</ComphrensiveDeductible>
+                    <CollisionDeductible>500</CollisionDeductible>
+                    <GarageType>No Cover</GarageType>
+                </Vehicle>
+            </Vehicles>
+            <Drivers>
+                <Driver DriverID="1">
+                    <PersonalInfo MaritalStatus="Married" RelationshipToApplicant="Self" Gender="Female">
+                        <FirstName>Roberta</FirstName>
+                        <LastName>Doe</LastName>
+                        <BirthDate>1963-11-15</BirthDate>
+                        <SocialSecurityNumber>000000000</SocialSecurityNumber>
+                        <Occupation>Homemaker</Occupation>
+                        <MilitaryExperience>No Military Experience</MilitaryExperience>
+                        <Education GoodStudentDiscount="No">HighSchool Diploma</Education>
+                        <CreditRating Bankruptcy="No">Average</CreditRating>
+                    </PersonalInfo>
+                    <PrimaryVehicle>1</PrimaryVehicle>
+                    <DriversLicense LicenseEverSuspendedRevoked="No">
+                        <State>NJ</State>
+                        <LicensedAge>18</LicensedAge>
+                        <Number/>
+                    </DriversLicense>
+                    <DrivingRecord SR22Required="No" DriverTraining="No">
+                        <DUIs>
+                            <DUI Year="2007" Month="03">
+                                <State>NJ</State>
+                            </DUI>
+                        </DUIs>
+                        <Accidents>
+                            <Accident Year="2007" Month="03">
+                                <Description>Vehicle Hit Property</Description>
+                                <AtFault>Yes</AtFault>
+                                <WhatDamaged>Property</WhatDamaged>
+                                <InsurancePaidAmount>500</InsurancePaidAmount>
+                            </Accident>
+                        </Accidents>
+                        <Tickets>
+                            <Ticket Year="2007" Month="03">
+                                <Description>Speeding Violation</Description>
+                            </Ticket>
+                        </Tickets>
+                        <Claims></Claims>
+                    </DrivingRecord>
+                </Driver>
+                <Driver DriverID="2">
+                    <PersonalInfo MaritalStatus="Married" RelationshipToApplicant="Spouse" Gender="Male">
+                        <FirstName>John</FirstName>
+                        <LastName>Doe</LastName>
+                        <BirthDate>1963-06-12</BirthDate>
+                        <SocialSecurityNumber>000000000</SocialSecurityNumber>
+                        <Occupation>Engineer</Occupation>
+                        <MilitaryExperience>No Military Experience</MilitaryExperience>
+                        <Education GoodStudentDiscount="No">HighSchool Diploma</Education>
+                        <CreditRating Bankruptcy="No">Average</CreditRating>
+                    </PersonalInfo>
+                    <PrimaryVehicle>2</PrimaryVehicle>
+                    <DriversLicense LicenseEverSuspendedRevoked="No">
+                        <State>NJ</State>
+                        <LicensedAge>17</LicensedAge>
+                        <Number/>
+                    </DriversLicense>
+                    <DrivingRecord SR22Required="No" DriverTraining="No"/>
+                </Driver>
+            </Drivers>
+        </AutoLead>
+    </LeadData>
+</MSALead>

@@ -1,0 +1,19 @@
+{
+    "children": [
+        "State==MA",
+        "Marital==_MARRIED",
+        "Education==_BACHELORS_DEGREE|_MASTERS_DEGREE|_DOCTORATE_DEGREE"
+    ]
+}
+
+
+
+{
+    "children": [
+        "State==MA"
+    ]
+}
+
+
+
+{"children": ["true"]}

@@ -1,0 +1,32 @@
+<XmlResultsDefinition xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+    <headerDefinition>
+        <header>
+            <productCodeSelected>300</productCodeSelected>
+            <productDescriptionSelected>Auto Insurance</productDescriptionSelected>
+            <locationZipcode>48234</locationZipcode>
+            <locationState>Michigan</locationState>
+            <locationStatecode>MI</locationStatecode>
+            <defaultMessage>Compare multiple quotes for Auto Insurance in the MI area</defaultMessage>
+        </header>
+    </headerDefinition>
+    <ilistings>
+        <ilisting>
+            <XmlListingLinkDefinition>
+                <href>//www.healthinsurancefinders.com/Click.aspx?l=39537&amp;sc=7d031c7d-c111-4100-a1df-c17405875bb3&amp;p=aaf475ef-8045-44be-95b8-f45b35efd068&amp;s=f4e50ac9-242a-4c8e-b690-03542b7d6d99</href>
+                <target>_blank</target>
+                <rel>nofollow</rel>
+            </XmlListingLinkDefinition>
+            <title>DETROIT, Michigan drivers, you could save hundreds on car insurance with Progressive</title>
+            <snippet>Paying too much on auto insurance? Drivers who switch to Progressive save an average of over $475.
+                So get a free quote today to see how much you could save!
+            </snippet>
+            <domainUrl>www.Progressive.com</domainUrl>
+            <domainLogoUrl>//cdn.bwcdn.net/logos/2834.gif</domainLogoUrl>
+            <sitePreviewUrl>//cdn.bwcdn.net/thumbnails/2834.jpg</sitePreviewUrl>
+            <onClick/>
+            <bid>6.56223120000000</bid>
+            <CallBid>0</CallBid>
+            <CallUrl/>
+        </ilisting>
+    </ilistings>
+</XmlResultsDefinition>

@@ -1,0 +1,1 @@
+ALTER TABLE Ad_Group_Keyword_Bid DROP COLUMN bid_type, DROP COLUMN uploaded_ts;

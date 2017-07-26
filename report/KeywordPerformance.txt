@@ -1,0 +1,4 @@
+"Criteria performance report #1372289833301 (Jun 1, 2013-Jun 26, 2013)"
+Campaign ID,Ad group ID,Keyword ID,Criteria Type,Keyword / Placement,Impressions,Clicks,Cost,Avg. position,Quality score
+131966068,6392975668,12947148837,Keyword,ezway,54,2,0.80,2.3,3
+Total, --, --, --, --,54,2,0.80,2.3, --

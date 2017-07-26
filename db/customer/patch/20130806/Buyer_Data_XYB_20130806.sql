@@ -1,0 +1,5 @@
+INSERT INTO `Buyer_Account` VALUES ('6', '2013-08-06 00:00:00', '0000-00-00 00:00:00', '4', '3', 'LibertyMutualKevin', 'testing');
+INSERT INTO `Buyer_Account` VALUES ('7', '2013-08-06 00:00:00', '0000-00-00 00:00:00', '4', '3', 'LibertyMutualBrooke', 'testing');
+
+INSERT INTO `Buyer_Account_Config` VALUES ('5', '2013-08-06 00:00:00', '0000-00-00 00:00:00', '6', 'LEAD_RULE', '{\"children\": [\"State==TN\",\"SR22==false\",\"Education==_BACHELORS_DEGREE|_MASTERS_DEGREE|_DOCTORATE_DEGREE\"]}', 'mailto:Kevin.Edmonds@libertymutual.com', '5', '0', '102');
+INSERT INTO `Buyer_Account_Config` VALUES ('6', '2013-08-06 00:00:00', '0000-00-00 00:00:00', '7', 'LEAD_RULE', '{\"children\": [\"State==TX\",\"CurrentInsured==true\",\"Marital==_MARRIED\",\"Residence==_OWN\",\"LicenseSuspended==false\"]}', 'mailto:Brooke.Thrasher@libertymutual.com', '5', '0', '103');

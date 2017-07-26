@@ -1,0 +1,4 @@
+keyfile=src/main/resources/fetchthequote/8ad60740d9df1207443c78cc73ef418aae43a06f-privatekey.p12
+accountid=36161657309-ach69dnh1g1jfiht54diuq4eusom2jsk@developer.gserviceaccount.com
+accountscopes=https://adwords.google.com/api/adwords
+accountuser=administrator@holdclick.com

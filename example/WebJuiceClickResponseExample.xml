@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<WJResponse>
+    <header>
+        <code>1000</code>
+        <message>Operation Succeeded</message>
+        <resource><![CDATA[/rest/getAdByCategory?accesskey=qkfk3i34933&a=1002&cid=98]]>
+        </resource>
+    </header>
+    <body>
+        <logo>
+            <src><![CDATA[http://www.webjuice.com/images/wj_logo.gif]]></src>
+            <url><![CDATA[http://www.webjuice.com]]></url>
+        </logo>
+        <ad>
+            <headline><![CDATA[Get Your MBA Online]]></headline>
+            <descr><![CDATA[Too Busy to go to School? Compare Top Online Schools Today and Graduate Online Faster! Financial Aid Options Available.]]></descr>
+            <displayurl><![CDATA[www.classesUSA.com]]></displayurl>
+            <redirecturl>
+                <![CDATA[http://www.wjadserver.com/event?t=fd&aid=348&a=1002&sid=##sid##]]>
+            </redirecturl>
+        </ad>
+        <ad>
+            <headline><![CDATA[Obtain Your MBA Online]]></headline>
+            <descr><![CDATA[Choose from many accredited schools and degrees. Request more info today.]]></descr>
+            <displayurl><![CDATA[www.careerdegreesource.com]]></displayurl>
+            <redirecturl>
+                <![CDATA[http://www.wjadserver.com/event?t=fd&aid=429&a=1002&sid=##sid##]]>
+            </redirecturl>
+            <logo>
+                <![CDATA[ http://static.wjadserver.com/logo_images/583855.1395258709.jpg  ]]>
+            </logo>
+        </ad>
+    </body>
+</WJResponse>

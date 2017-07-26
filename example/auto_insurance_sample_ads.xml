@@ -1,0 +1,30 @@
+<AutoInsurance_Ads zip_code="02115">
+    <Ad>
+        <Headline_Text><![CDATA[Cheap Auto Insurance!]]></Headline_Text>
+        <Detail_Text><![CDATA[<ul><li>Wide choices of policies!</li><li>Select your own options!</li><li>Start your application now!</li></ul>]]></Detail_Text>
+        <Logo><![CDATA[http://192.168.1.144/pgauto/components/com_jmicroautofrm/images/carriers/st2static/example_logo.png]]></Logo>
+        <Link_Text><![CDATA[www.google.com]]></Link_Text>
+        <Link><![CDATA[https://www.google.com?q=cheap+auto+insurance]]></Link>
+    </Ad>
+    <Ad>
+        <Headline_Text><![CDATA[Cheap Auto Insurance!]]></Headline_Text>
+        <Detail_Text><![CDATA[<ul><li>Best price guarantee!</li><li>Over 3 million customers insured!</li><li>24/7 customer support!</li></ul>]]></Detail_Text>
+        <Logo><![CDATA[http://192.168.1.144/pgauto/components/com_jmicroautofrm/images/carriers/st2static/example_logo.png]]></Logo>
+        <Link_Text><![CDATA[www.google.com]]></Link_Text>
+        <Link><![CDATA[https://www.google.com?q=cheap+auto+insurance]]></Link>
+    </Ad>
+    <Ad>
+        <Headline_Text><![CDATA[Cheap Auto Insurance!]]></Headline_Text>
+        <Detail_Text><![CDATA[<ul><li>View affordable, custom auto insurance quotes in minutes!</li><li>All it takes is a few simple question!</li><li>Click for your free quote!</li></ul>]]></Detail_Text>
+        <Logo><![CDATA[http://192.168.1.144/pgauto/components/com_jmicroautofrm/images/carriers/st2static/example_logo.png]]></Logo>
+        <Link_Text><![CDATA[www.google.com]]></Link_Text>
+        <Link><![CDATA[https://www.google.com?q=cheap+auto+insurance]]></Link>
+    </Ad>
+    <Ad>
+        <Headline_Text><![CDATA[Cheap Auto Insurance!]]></Headline_Text>
+        <Detail_Text><![CDATA[<ul><li>Get multiple quotes, save big!</li><li>Get the lowest auto insurance rates!</li><li>Click to apply online!</li></ul>]]></Detail_Text>
+        <Logo><![CDATA[http://192.168.1.144/pgauto/components/com_jmicroautofrm/images/carriers/st2static/example_logo.png]]></Logo>
+        <Link_Text><![CDATA[www.google.com]]></Link_Text>
+        <Link><![CDATA[https://www.google.com?q=cheap+auto+insurance]]></Link>
+    </Ad>
+</AutoInsurance_Ads>

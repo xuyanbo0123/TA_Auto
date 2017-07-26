@@ -1,0 +1,2 @@
+ALTER TABLE `Lead_Sell`
+MODIFY COLUMN `sell_state` enum('ERROR','SOLD','REJECTED','EXCEPTION','TIMEOUT','PENDING') CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL AFTER `buyer_account_id`;

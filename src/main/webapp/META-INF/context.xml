@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context path="/mi" debug="5" reloadable="true" crossContext="false">
+      <Resource name="jdbc/Manager" auth="Container" type="javax.sql.DataSource"
+                factory="org.apache.commons.dbcp.BasicDataSourceFactory"
+                driverClassName="com.mysql.jdbc.Driver"
+                url="jdbc:mysql://localhost:3306/Manager?autoReconnectForPools=true&amp;useUnicode=yes&amp;characterEncoding=utf8"
+                username="mimactest" password="20130709NewCorpDBMain!@#$Dota260M"
+                useUnicode="yes" characterEncoding="utf8"
+                maxActive="20" maxIdle="10" maxWait="10000"
+                validationQuery="SELECT 1" testWhileIdle="true" timeBetweenEvictionRunsMillis="3600000" minEvictableIdleTimeMillis="21600000"
+                removeAbandoned="true" removeAbandonedTimeout="600" logAbandoned="true"/>
+
+    <Resource name="jdbc/Quotes2Compare" auth="Container" type="javax.sql.DataSource"
+              factory="org.apache.commons.dbcp.BasicDataSourceFactory"
+              driverClassName="com.mysql.jdbc.Driver"
+              url="jdbc:mysql://localhost:3306/All?autoReconnectForPools=true&amp;useUnicode=yes&amp;characterEncoding=utf8"
+              username="mimactest" password="20130709NewCorpDBMain!@#$Dota260M"
+              useUnicode="yes" characterEncoding="utf8"
+              maxActive="20" maxIdle="10" maxWait="10000"
+              validationQuery="SELECT 1" testWhileIdle="true" timeBetweenEvictionRunsMillis="3600000" minEvictableIdleTimeMillis="21600000"
+              removeAbandoned="true" removeAbandonedTimeout="600" logAbandoned="true"/>
+
+    <Resource name="jdbc/FetchTheQuote" auth="Container" type="javax.sql.DataSource"
+              factory="org.apache.commons.dbcp.BasicDataSourceFactory"
+              driverClassName="com.mysql.jdbc.Driver"
+              url="jdbc:mysql://localhost:3306/FetchTheQuote?autoReconnectForPools=true&amp;useUnicode=yes&amp;characterEncoding=utf8"
+              username="mimactest" password="20130709NewCorpDBMain!@#$Dota260M"
+              useUnicode="yes" characterEncoding="utf8"
+              maxActive="20" maxIdle="10" maxWait="10000"
+              validationQuery="SELECT 1" testWhileIdle="true" timeBetweenEvictionRunsMillis="3600000" minEvictableIdleTimeMillis="21600000"
+              removeAbandoned="true" removeAbandonedTimeout="600" logAbandoned="true"/>
+</Context>

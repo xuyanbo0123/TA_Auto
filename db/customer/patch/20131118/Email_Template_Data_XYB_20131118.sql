@@ -1,0 +1,38 @@
+UPDATE `Email_Template` SET content = '<div style="margin-left:auto; margin-right:auto; text-align:center;">
+    <table cellpadding="0" cellspacing="0" style="border:1px solid #000; font-family:Arial; font-size:15px; margin-left:auto; margin-right:auto; text-align: left;">
+        <thead>
+            <tr style="background-color:#EEEEEE;">
+                <td style="padding:0px; margin:0px; height:42px;" colspan="4">
+                    <img src="[[AUTO_INSURANCE_LOGO_IMG_URL]]" alt="Quotes2Compare Logo" style="margin: 5px;" />
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="padding:10px;" colspan="4">
+                    <p style="font-size:18px; font-weight:bold;">Dear [[FIRST_NAME]] [[LAST_NAME]],</p>
+                    <p>Thank you for using Quotes2Compare.com. Your request has been submitted and you should be contacted by email or phone by a professional who can assist you with finding a plan that suits your needs.</p>
+                    <p>Once again, thank you for choosing Quotes2Compare.com and we hope to have the pleasure of serving you again in the future!</p>
+
+                    <p><strong>Cheers,</strong><br />
+                    The Quotes2Compare Team</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="margin:5px; background-color:#0084C6; text-align:center; border-right: 1px solid #fff;">
+                    <a href="[[AUTO_INSURANCE_HOME_PAGE_URL]]" style="color:#fff; display:block; text-decoration:underline;">Visit Us</a>
+                </td>
+                <td style="margin:5px; background-color:#0084C6; text-align:center;border-right: 1px solid #fff;">
+                    <a href="[[AUTO_INSURANCE_INSURANCE_LIBRARY_URL]]" style="color:#fff; text-decoration:underline;">Insurance Library</a>
+                </td>
+                <td style="margin:5px; background-color:#0084C6; text-align:center;">
+                    <a href="[[AUTO_INSURANCE_CONTACT_US_URL]]" style="color:#fff; text-decoration:underline;">Contact Us</a>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>
+<p style="margin:10px; height:20px;font-family:Arial; text-align:center; font-size:10px; color:#999; line-height:18px;">
+    Quotes2Compare respects your privacy. For more information, please review our <a href="[[AUTO_INSURANCE_PRIVACY_STATEMENT_URL]]">Privacy Policy</a>
+</p>' WHERE id = 2;

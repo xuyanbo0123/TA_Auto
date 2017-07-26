@@ -1,0 +1,1698 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="MSALead">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="LeadSourceData">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element minOccurs="1" name="AffiliateLogin" type="xs:string"/>					
+							<xs:element minOccurs="1" name="AffiliatePassword" type="xs:string"/>					
+							<xs:element minOccurs="0" name="ConsumerIP" type="xs:string"/>					
+							<xs:element minOccurs="0" name="LeadSource" type="xs:string"/>	
+							<xs:element minOccurs="0" name="LeadSubSource" type="xs:string"/>					
+							<xs:element minOccurs="0" name="AffiliateLeadID" type="xs:string"/>									
+							<xs:element minOccurs="0" name="ConsumerLeadID" type="xs:string"/>									
+							<xs:element minOccurs="0" name="LeadCreationDate" type="xs:dateTime"/>									
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element minOccurs="0" name="DistributionDirectives">
+					<xs:complexType>
+						<xs:complexContent mixed="false">
+							<xs:extension base="DistributionDirectivesType"/>
+						</xs:complexContent>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="LeadData">
+					<xs:complexType>
+						<xs:sequence>					
+							<xs:element name="ContactDetails">
+								<xs:complexType>
+									<xs:complexContent mixed="false">
+										<xs:extension base="ContactDetailsType"/>
+									</xs:complexContent>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="InsurancePolicy">
+								<xs:complexType>
+									<xs:complexContent mixed="false">
+										<xs:extension base="InsurancePolicyType"/>
+									</xs:complexContent>
+								</xs:complexType>
+							</xs:element>
+							<xs:choice id="LeadRequest">
+								<xs:element name="AutoLead">
+									<xs:complexType>
+										<xs:complexContent mixed="false">
+											<xs:extension base="AutoLeadType"/>
+										</xs:complexContent>
+									</xs:complexType>
+								</xs:element>
+							</xs:choice>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute default="1.0" name="Version" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="DistributionDirectivesType">
+		<xs:sequence>
+			<xs:element minOccurs="0" maxOccurs="unbounded" name="Directive" type="DirectiveType"/>
+		</xs:sequence>
+		<xs:attribute name="DistributionCap" type="DistributionCapType" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="DirectiveType">
+		<xs:simpleContent>
+			<xs:extension base="CompanyNameValues">
+				<xs:attribute name="Action" type="ActionValues" use="required"/>
+				<xs:attribute name="Detail" type="xs:string" use="optional"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:simpleType name="ActionValues">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Include"/>
+			<xs:enumeration value="Exclude"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="DistributionCapType">
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="1"/>
+			<xs:maxInclusive value="8"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="ContactDetailsType">
+		<xs:sequence>
+			<xs:element name="FirstName" type="xs:string"/><!--Required on Post-->
+			<xs:element name="LastName" type="xs:string"/><!--Required on Post-->
+			<xs:element name="StreetAddress" type="xs:string"/><!--Required on Post-->
+			<xs:element name="City" type="xs:string"/>
+			<xs:element name="State" type="StateType"/>
+			<xs:element name="ZIPCode" type="ZIPCodeType"/>
+			<xs:element name="Email" type="EmailType"/><!--Required on Post-->
+			<xs:element name="PhoneNumbers"><!--Required on Post-->
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="3" name="PhoneNumber" type="PhoneNumberType"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ResidenceStatus" type="ResidenceStatusType"/>
+			<xs:element minOccurs="0" name="TCPAOptIn" type="YesNo"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="InsurancePolicyType">
+		<xs:sequence>
+			<xs:element name="NewPolicy">
+				<xs:complexType>
+					<xs:choice id="NewPolicyRequest">
+						<xs:element name="RequestedCoverage" type="CoverageType"/>
+					</xs:choice>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="PriorPolicy">
+				<xs:complexType>
+					<xs:all>
+						<xs:element minOccurs="0" name="InsuranceCompany" type="InsuranceCompanyType"/><!--Required if CurrentlyInsured is 'Yes'-->
+						<xs:element minOccurs="0" name="PolicyExpirationDate" type="xs:date"/><!--Required if CurrentlyInsured is 'Yes'-->
+						<xs:element minOccurs="0" name="YearsContinuous" type="xs:int"/><!--Required if CurrentlyInsured is 'Yes'-->
+						<xs:element minOccurs="0" name="MonthsContinuous" type="xs:int"/><!--Required if CurrentlyInsured is 'Yes'-->
+					</xs:all>
+					<xs:attribute name="CurrentlyInsured" type="YesNo" use="required"/>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AutoLeadType">
+		<xs:sequence>
+			<xs:element name="Vehicles">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="4" name="Vehicle">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element minOccurs="0" name="VIN" type="StringType"/>
+									<xs:element minOccurs="0" name="VehicleData">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="VehYear" type="YearType"/>
+												<xs:element name="VehMake" type="StringType"/>
+												<xs:element name="VehModel" type="StringType"/>
+												<xs:element name="VehSubmodel" type="xs:string"/>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>									
+									<xs:element name="VehUse" type="VehUseType"/>
+									<xs:element name="ComphrensiveDeductible" type="ComphrensiveDeductibleType"/>
+									<xs:element name="CollisionDeductible" type="CollisionDeductibleType"/>
+									<xs:element name="GarageType" type="GarageType"/>
+								</xs:sequence>
+								<xs:attribute form="unqualified" name="VehicleID" type="xs:int" use="required"/>
+								<xs:attribute name="Ownership" type="YesNo" use="required"/>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Drivers">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="4" name="Driver">
+							<xs:complexType>
+								<xs:all>
+									<xs:element minOccurs="1" name="PersonalInfo">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element minOccurs="0" name="FirstName" type="xs:string"/>
+												<xs:element minOccurs="0" name="LastName" type="xs:string"/>
+												<xs:element name="BirthDate" type="xs:date"/>
+												<xs:element minOccurs="0" name="SocialSecurityNumber" type="xs:string"/>
+												<xs:element name="Occupation" type="OccupationNameType"/>
+												<xs:element name="MilitaryExperience" type="MilitaryExperienceType"/>
+												<xs:element name="Education" type="EducationType"/>
+												<xs:element name="CreditRating" type="CreditRatingType"/>
+											</xs:sequence>
+											<xs:attribute name="Gender" type="GenderType" use="required"/>
+											<xs:attribute name="MaritalStatus" type="MaritalStatusType" use="required"/>
+											<xs:attribute name="RelationshipToApplicant" type="RelationshipToApplicantType" use="required"/>
+											<xs:attribute name="PersonID" type="xs:int"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="PrimaryVehicle" type="xs:int"/>
+									<xs:element name="DriversLicense">
+										<xs:complexType>
+											<xs:all>
+												<xs:element name="State" type="StateType"/>
+												<xs:element minOccurs="0" name="Number" type="xs:string"/>
+												<xs:element name="LicensedAge" type="xs:string"/>
+											</xs:all>
+											<xs:attribute name="LicenseEverSuspendedRevoked" type="YesNo" use="required"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="DrivingRecord">
+										<xs:complexType>
+											<xs:all minOccurs="0">
+												<xs:element minOccurs="0" name="DUIs">
+													<xs:complexType>
+														<xs:sequence>
+															<xs:element minOccurs="0" maxOccurs="unbounded" name="DUI">
+																<xs:complexType>
+																	<xs:sequence>
+																		<xs:element name="State" type="StateType"/>
+																	</xs:sequence>
+																	<xs:attribute name="Year" type="YearType" use="required"/>
+																	<xs:attribute name="Month" type="MonthType" use="required"/>
+																</xs:complexType>
+															</xs:element>
+														</xs:sequence>
+													</xs:complexType>
+												</xs:element>
+												<xs:element minOccurs="0" name="Accidents">
+													<xs:complexType>
+														<xs:sequence>
+															<xs:element minOccurs="0" maxOccurs="unbounded" name="Accident">
+																<xs:complexType>
+																	<xs:sequence>
+																		<xs:element name="Description" type="IncidentAutoAccident"/>
+																		<xs:element name="AtFault" type="YesNo"/>
+																		<xs:element name="WhatDamaged" type="WhatDamaged"/>
+																		<xs:element name="InsurancePaidAmount" type="xs:int"/>
+																	</xs:sequence>
+																	<xs:attribute name="Year" type="YearType" use="required"/>
+																	<xs:attribute name="Month" type="MonthType" use="required"/>
+																</xs:complexType>
+															</xs:element>
+														</xs:sequence>
+													</xs:complexType>
+												</xs:element>
+												<xs:element minOccurs="0" name="Tickets">
+													<xs:complexType>
+														<xs:sequence>
+															<xs:element minOccurs="0" maxOccurs="unbounded" name="Ticket">
+																<xs:complexType>
+																	<xs:sequence>
+																		<xs:element name="Description" type="IncidentAutoTicket"/>
+																	</xs:sequence>
+																	<xs:attribute name="Year" type="YearType" use="required"/>
+																	<xs:attribute name="Month" type="MonthType" use="required"/>
+																</xs:complexType>
+															</xs:element>
+														</xs:sequence>
+													</xs:complexType>
+												</xs:element>
+												<xs:element minOccurs="0" name="Claims">
+													<xs:complexType>
+														<xs:sequence>
+															<xs:element minOccurs="0" maxOccurs="unbounded" name="Claim">
+																<xs:complexType>
+																	<xs:sequence>
+																		<xs:element name="Description" type="IncidentAutoClaim"/>
+																		<xs:element name="AtFault" type="YesNo"/>
+																		<xs:element name="WhatDamaged" type="WhatDamaged"/>
+																		<xs:element name="InsurancePaidAmount" type="xs:int"/>
+																	</xs:sequence>
+																	<xs:attribute name="Year" type="YearType" use="required"/>
+																	<xs:attribute name="Month" type="MonthType" use="required"/>
+																</xs:complexType>
+															</xs:element>
+														</xs:sequence>
+													</xs:complexType>
+												</xs:element>
+											</xs:all>
+											<xs:attribute name="SR22Required" type="YesNo" use="required"/>
+											<xs:attribute name="DriverTraining" type="YesNo" use="required"/>
+										</xs:complexType>
+									</xs:element>
+								</xs:all>
+								<xs:attribute name="DriverID" type="xs:int" use="required"/>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="StateType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="AK"/>
+			<xs:enumeration value="AL"/>
+			<xs:enumeration value="AR"/>
+			<xs:enumeration value="AZ"/>
+			<xs:enumeration value="CA"/>
+			<xs:enumeration value="CO"/>
+			<xs:enumeration value="CT"/>
+			<xs:enumeration value="DC"/>
+			<xs:enumeration value="DE"/>
+			<xs:enumeration value="FL"/>
+			<xs:enumeration value="GA"/>
+			<xs:enumeration value="HI"/>
+			<xs:enumeration value="IA"/>
+			<xs:enumeration value="ID"/>
+			<xs:enumeration value="IL"/>
+			<xs:enumeration value="IN"/>
+			<xs:enumeration value="KS"/>
+			<xs:enumeration value="KY"/>
+			<xs:enumeration value="LA"/>
+			<xs:enumeration value="MA"/>
+			<xs:enumeration value="MD"/>
+			<xs:enumeration value="ME"/>
+			<xs:enumeration value="MI"/>
+			<xs:enumeration value="MN"/>
+			<xs:enumeration value="MO"/>
+			<xs:enumeration value="MS"/>
+			<xs:enumeration value="MT"/>
+			<xs:enumeration value="NC"/>
+			<xs:enumeration value="ND"/>
+			<xs:enumeration value="NE"/>
+			<xs:enumeration value="NH"/>
+			<xs:enumeration value="NJ"/>
+			<xs:enumeration value="NM"/>
+			<xs:enumeration value="NV"/>
+			<xs:enumeration value="NY"/>
+			<xs:enumeration value="OH"/>
+			<xs:enumeration value="OK"/>
+			<xs:enumeration value="OR"/>
+			<xs:enumeration value="PA"/>
+			<xs:enumeration value="RI"/>
+			<xs:enumeration value="SC"/>
+			<xs:enumeration value="SD"/>
+			<xs:enumeration value="TN"/>
+			<xs:enumeration value="TX"/>
+			<xs:enumeration value="UT"/>
+			<xs:enumeration value="VA"/>
+			<xs:enumeration value="VT"/>
+			<xs:enumeration value="WA"/>
+			<xs:enumeration value="WI"/>
+			<xs:enumeration value="WV"/>
+			<xs:enumeration value="WY"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ZIPCodeType">
+		<xs:restriction base="xs:string">
+			<xs:length value="5"/>
+			<xs:pattern value="\d{5}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="EmailType">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:complexType name="PhoneNumberType">
+		<xs:sequence>
+			<xs:element name="Number" type="PhoneNumberValue"/>
+			<xs:element minOccurs="0" name="Extension" type="ExtensionValue"/>
+		</xs:sequence>
+		<xs:attribute name="Type" type="PhoneTypeValue" use="required"/>
+	</xs:complexType>
+	<xs:simpleType name="PhoneNumberValue">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="14"/>
+			<xs:pattern value="\d{10,14}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ExtensionValue">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="4"/>
+			<xs:pattern value="\d{1,4}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="PhoneTypeValue">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Home"/>
+			<xs:enumeration value="Work"/>
+			<xs:enumeration value="Cell"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="ResidenceStatusType">
+		<xs:simpleContent>
+			<xs:extension base="ResidenceStatusValues">
+				<xs:attribute name="YearsAt" type="YearsAtType" use="required"/>
+				<xs:attribute name="MonthsAt" type="MonthsAtType" use="required"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:simpleType name="ResidenceStatusValues">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Own"/>
+			<xs:enumeration value="Rent"/>
+			<xs:enumeration value="Live With Parents"/>
+			<xs:enumeration value="Dormitory"/>
+			<xs:enumeration value="Choice Not Listed"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="YearsAtType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="0"/>
+			<xs:enumeration value="1"/>
+			<xs:enumeration value="2"/>
+			<xs:enumeration value="3"/>
+			<xs:enumeration value="4"/>
+			<xs:enumeration value="5"/>
+			<xs:enumeration value="6"/>
+			<xs:enumeration value="7"/>
+			<xs:enumeration value="8"/>
+			<xs:enumeration value="9"/>
+			<xs:enumeration value="10+"/>
+			<xs:enumeration value="10 "/>
+			<xs:enumeration value="10"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="MonthsAtType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="0"/>
+			<xs:enumeration value="1"/>
+			<xs:enumeration value="2"/>
+			<xs:enumeration value="3"/>
+			<xs:enumeration value="4"/>
+			<xs:enumeration value="5"/>
+			<xs:enumeration value="6"/>
+			<xs:enumeration value="7"/>
+			<xs:enumeration value="8"/>
+			<xs:enumeration value="9"/>
+			<xs:enumeration value="10"/>
+			<xs:enumeration value="11"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!--END MonthsAtType Tag-->
+	<!--START CoverageType Tag
+		Standard Protection
+		100,000 / 300,000 Bodily Injury 
+		50,000 Property Damage 
+		100,000 / 300,000 Under / Uninsured 
+		Motorist Bodily Injury  
+		
+		Basic Protection
+		50,000 / 100,000 Bodily Injury 
+		25,000 Property Damage 
+		50,000 / 100,000 Under / Uninsured 
+		Motorist Bodily Injury  
+		
+		State Minimum
+		The minimum allowable limits in your State for Bodily Injury, 
+		Property Damage and Under / Uninsured Motorist Bodily 
+		Injury will be used  
+		
+		Superior Protection
+		250,000 / 500,000 Bodily Injury 
+		 100,000 Property Damage 
+		250,000 / 500,000 Under / Uninsured 
+		Motorist Bodily Injury -->
+	<xs:simpleType name="CoverageType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Standard Protection"/>
+			<xs:enumeration value="Basic Protection"/>
+			<xs:enumeration value="State Minimum"/>
+			<xs:enumeration value="Superior Protection"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="InsuranceCompanyType">
+		<xs:simpleContent>
+			<xs:extension base="CompanyCodeValues">
+				<xs:attribute name="YearsWith" type="xs:int" use="required"/>
+				<xs:attribute name="MonthsWith" type="xs:int" use="required"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="VehUseType">
+		<xs:simpleContent>
+			<xs:extension base="VehUseValues">
+				<xs:attribute name="AnnualMiles" type="AnnualMilesType" use="required"/>
+				<xs:attribute name="WeeklyCommuteDays" type="WeeklyCommuteDaysType" use="required"/>
+				<xs:attribute name="DailyCommuteMiles" type="DailyCommuteMilesType" use="required"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:simpleType name="VehUseValues">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="CommuteWork"/>
+			<xs:enumeration value="CommuteSchool"/>
+			<xs:enumeration value="CommuteVaries"/>
+			<xs:enumeration value="Farm"/>
+			<xs:enumeration value="Government"/>
+			<xs:enumeration value="Pleasure"/>
+			<xs:enumeration value="Business"/>
+			<xs:enumeration value="Other"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AnnualMilesType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="5000"/>
+			<xs:enumeration value="7500"/>
+			<xs:enumeration value="10000"/>
+			<xs:enumeration value="12500"/>
+			<xs:enumeration value="20000"/>
+			<xs:enumeration value="25000"/>
+			<xs:enumeration value="30000"/>
+			<xs:enumeration value="40000"/>
+			<xs:enumeration value="50000"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="WeeklyCommuteDaysType">
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="7"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="DailyCommuteMilesType">
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="1"/>
+			<xs:maxInclusive value="999"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ComphrensiveDeductibleType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="No Coverage"/>
+			<xs:enumeration value="100"/>
+			<xs:enumeration value="200"/>
+			<xs:enumeration value="250"/>
+			<xs:enumeration value="500"/>
+			<xs:enumeration value="1000"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CollisionDeductibleType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="No Coverage"/>
+			<xs:enumeration value="100"/>
+			<xs:enumeration value="200"/>
+			<xs:enumeration value="250"/>
+			<xs:enumeration value="500"/>
+			<xs:enumeration value="1000"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="GarageType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="No Cover"/>
+			<xs:enumeration value="Carport"/>
+			<xs:enumeration value="Garage"/>
+			<xs:enumeration value="Locked"/>
+			<xs:enumeration value="Other"/>
+			<xs:enumeration value="Parking Lot"/>
+			<xs:enumeration value="Private"/>
+			<xs:enumeration value="Street"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="OccupationNameType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Administrative Clerical"/>
+			<xs:enumeration value="Advertising"/>
+			<xs:enumeration value="Appraiser"/>
+			<xs:enumeration value="Architect"/>
+			<xs:enumeration value="Artist"/>
+			<xs:enumeration value="Assembler"/>
+			<xs:enumeration value="Baker"/>
+			<xs:enumeration value="Banker"/>
+			<xs:enumeration value="Bank Teller"/>
+			<xs:enumeration value="Bartender"/>
+			<xs:enumeration value="Broker"/>
+			<xs:enumeration value="Business Owner"/>
+			<xs:enumeration value="Cashier"/>
+			<xs:enumeration value="Casino Worker"/>
+			<xs:enumeration value="CEO"/>
+			<xs:enumeration value="Certified Public Accountant"/>
+			<xs:enumeration value="Chemist"/>
+			<xs:enumeration value="ChildCare"/>
+			<xs:enumeration value="CityWorker"/>
+			<xs:enumeration value="Clergy"/>
+			<xs:enumeration value="Construction Trades"/>
+			<xs:enumeration value="Consultant"/>
+			<xs:enumeration value="Contractor"/>
+			<xs:enumeration value="Decorator"/>
+			<xs:enumeration value="Delivery Driver"/>
+			<xs:enumeration value="Dentist"/>
+			<xs:enumeration value="Disabled"/>
+			<xs:enumeration value="Electrician"/>
+			<xs:enumeration value="Engineer"/>
+			<xs:enumeration value="Entertainer"/>
+			<xs:enumeration value="Farmer"/>
+			<xs:enumeration value="FireFighter"/>
+			<xs:enumeration value="Government"/>
+			<xs:enumeration value="Health Care"/>
+			<xs:enumeration value="Homemaker"/>
+			<xs:enumeration value="Hospitality Travel"/>
+			<xs:enumeration value="Human Relations"/>
+			<xs:enumeration value="Human Resources"/>
+			<xs:enumeration value="Journalist"/>
+			<xs:enumeration value="Lab Technician"/>
+			<xs:enumeration value="Lawyer"/>
+			<xs:enumeration value="Marketing"/>
+			<xs:enumeration value="Manager Supervisor"/>
+			<xs:enumeration value="Military Officer"/>
+			<xs:enumeration value="Military Enlisted"/>
+			<xs:enumeration value="Military E1E4"/>
+			<xs:enumeration value="Military E5E9"/>
+			<xs:enumeration value="Military Other"/>
+			<xs:enumeration value="Minor Not Applicable"/>
+			<xs:enumeration value="Model"/>
+			<xs:enumeration value="Other Non Technical"/>
+			<xs:enumeration value="Other Technical"/>
+			<xs:enumeration value="Paralegal"/>
+			<xs:enumeration value="Paramedic"/>
+			<xs:enumeration value="Photographer"/>
+			<xs:enumeration value="Physician"/>
+			<xs:enumeration value="Police Officer"/>
+			<xs:enumeration value="Postal Worker"/>
+			<xs:enumeration value="Professional Salaried"/>
+			<xs:enumeration value="Professor"/>
+			<xs:enumeration value="Real Estate"/>
+			<xs:enumeration value="Receptionist"/>
+			<xs:enumeration value="Retail"/>
+			<xs:enumeration value="Retired"/>
+			<xs:enumeration value="Sales"/>
+			<xs:enumeration value="Sales Inside"/>
+			<xs:enumeration value="Sales Outside"/>
+			<xs:enumeration value="School Teacher"/>
+			<xs:enumeration value="Scientist"/>
+			<xs:enumeration value="Self Employed"/>
+			<xs:enumeration value="Skilled Semi Skilled"/>
+			<xs:enumeration value="Student"/>
+			<xs:enumeration value="Teacher"/>
+			<xs:enumeration value="Technology"/>
+			<xs:enumeration value="Telecommunications"/>
+			<xs:enumeration value="Transportation or Logistics"/>
+			<xs:enumeration value="Unemployed"/>
+			<xs:enumeration value="WaiterWaitress"/>
+			<xs:enumeration value="Not Listed"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="MilitaryExperienceType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="No Military Experience"/>
+			<xs:enumeration value="Active Commissioned"/>
+			<xs:enumeration value="Active Enlisted"/>
+			<xs:enumeration value="Discharged Commissioned"/>
+			<xs:enumeration value="Discharged Enlisted"/>
+			<xs:enumeration value="Reserve Commissioned"/>
+			<xs:enumeration value="Reserve Enlisted"/>
+			<xs:enumeration value="Retired"/>
+			<xs:enumeration value="Other"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="EducationType">
+		<xs:simpleContent>
+			<xs:extension base="EducationValues">
+				<xs:attribute name="GoodStudentDiscount" type="YesNo" use="required"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:simpleType name="EducationValues">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Some Or No HighSchool"/>
+			<xs:enumeration value="HighSchool Diploma"/>
+			<xs:enumeration value="GED"/>
+			<xs:enumeration value="Associate Degree"/>
+			<xs:enumeration value="Bachelors Degree"/>
+			<xs:enumeration value="Masters Degree"/>
+			<xs:enumeration value="Doctorate Degree"/>
+			<xs:enumeration value="Other Professional Degree"/>
+			<xs:enumeration value="Other NonProfessional Degree"/>
+			<xs:enumeration value="Some College"/>
+			<xs:enumeration value="Trade Vocational School"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="CreditRatingType">
+		<xs:simpleContent>
+			<xs:extension base="CreditRatingValues">
+				<xs:attribute name="Bankruptcy" type="YesNo" use="required"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:simpleType name="CreditRatingValues">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Poor"/>
+			<xs:enumeration value="Average"/>
+			<xs:enumeration value="Excellent"/>
+			<xs:enumeration value="Unsure"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="GenderType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Male"/>
+			<xs:enumeration value="Female"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="MaritalStatusType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Single"/>
+			<xs:enumeration value="Married"/>
+			<xs:enumeration value="Divorced"/>
+			<xs:enumeration value="Separated"/>
+			<xs:enumeration value="Widowed"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="RelationshipToApplicantType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Self"/>
+			<xs:enumeration value="Spouse"/>
+			<xs:enumeration value="Parent"/>
+			<xs:enumeration value="Sibling"/>
+			<xs:enumeration value="Child"/>
+			<xs:enumeration value="Grandparent"/>
+			<xs:enumeration value="Grandchild"/>
+			<xs:enumeration value="Other"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="IncidentAutoAccident">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Hit and Run"/>
+			<xs:enumeration value="Rear Ended"/>
+			<xs:enumeration value="Vehicle Hit Vehicle"/>
+			<xs:enumeration value="Vehicle Hit Pedestrian"/>
+			<xs:enumeration value="Vehicle Hit Property"/>
+			<xs:enumeration value="Vehicle Damaged Avoiding Accident"/>
+			<xs:enumeration value="Other Vehicle Hit Yours"/>
+			<xs:enumeration value="At Fault Accident Not Listed"/>
+			<xs:enumeration value="Not At Fault Accident Not Listed"/>
+			<xs:enumeration value="Not Listed"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="WhatDamaged">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="People"/>
+			<xs:enumeration value="Property"/>
+			<xs:enumeration value="Both"/>
+			<xs:enumeration value="Not Applicable"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="IncidentAutoClaim">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Fire Hail Water Damage"/>
+			<xs:enumeration value="Vandalism Damage"/>
+			<xs:enumeration value="Vehicle Hit Animal"/>
+			<xs:enumeration value="Vehicle Stolen"/>
+			<xs:enumeration value="Windshield Damage"/>
+			<xs:enumeration value="Loss Claim Not Listed"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="IncidentAutoTicket">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Careless Driving"/>
+			<xs:enumeration value="Defective Equipment"/>
+			<xs:enumeration value="Failure To Obey Signal"/>
+			<xs:enumeration value="Invalid License"/>
+			<xs:enumeration value="No Insurance"/>
+			<xs:enumeration value="No License"/>
+			<xs:enumeration value="No Seatbelt"/>
+			<xs:enumeration value="Reckless Driving"/>
+			<xs:enumeration value="Speeding Violation"/>
+			<xs:enumeration value="Speeding 100 Over"/>
+			<xs:enumeration value="Speeding 10 to 20 Over"/>
+			<xs:enumeration value="Speeding 20 Over"/>
+			<xs:enumeration value="Speeding Under 10 Over"/>
+			<xs:enumeration value="Ticket Violation Not Listed"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="YearType">
+		<xs:restriction base="xs:string">
+			<xs:length value="4"/>
+			<xs:pattern value="\d{4}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="MonthType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="01"/>
+			<xs:enumeration value="02"/>
+			<xs:enumeration value="03"/>
+			<xs:enumeration value="04"/>
+			<xs:enumeration value="05"/>
+			<xs:enumeration value="06"/>
+			<xs:enumeration value="07"/>
+			<xs:enumeration value="08"/>
+			<xs:enumeration value="09"/>
+			<xs:enumeration value="10"/>
+			<xs:enumeration value="11"/>
+			<xs:enumeration value="12"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="DayType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="01"/>
+			<xs:enumeration value="02"/>
+			<xs:enumeration value="03"/>
+			<xs:enumeration value="04"/>
+			<xs:enumeration value="05"/>
+			<xs:enumeration value="06"/>
+			<xs:enumeration value="07"/>
+			<xs:enumeration value="08"/>
+			<xs:enumeration value="09"/>
+			<xs:enumeration value="10"/>
+			<xs:enumeration value="11"/>
+			<xs:enumeration value="12"/>
+			<xs:enumeration value="13"/>
+			<xs:enumeration value="14"/>
+			<xs:enumeration value="15"/>
+			<xs:enumeration value="16"/>
+			<xs:enumeration value="17"/>
+			<xs:enumeration value="18"/>
+			<xs:enumeration value="19"/>
+			<xs:enumeration value="20"/>
+			<xs:enumeration value="21"/>
+			<xs:enumeration value="22"/>
+			<xs:enumeration value="23"/>
+			<xs:enumeration value="24"/>
+			<xs:enumeration value="25"/>
+			<xs:enumeration value="26"/>
+			<xs:enumeration value="27"/>
+			<xs:enumeration value="28"/>
+			<xs:enumeration value="29"/>
+			<xs:enumeration value="30"/>
+			<xs:enumeration value="31"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="StringType">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="YesNo">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Yes"/>
+			<xs:enumeration value="No"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CompanyNameValues">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="21st Century"/>
+			<xs:enumeration value="AAA"/>
+			<xs:enumeration value="AABCO"/>
+			<xs:enumeration value="AARP"/>
+			<xs:enumeration value="Access Insurance"/>
+			<xs:enumeration value="Acordia"/>
+			<xs:enumeration value="Aegis Security"/>
+			<xs:enumeration value="AETNA"/>
+			<xs:enumeration value="Affirmative"/>
+			<xs:enumeration value="AFLAC"/>
+			<xs:enumeration value="AHCP"/>
+			<xs:enumeration value="AIG"/>
+			<xs:enumeration value="AIU"/>
+			<xs:enumeration value="Alfa Insurance"/>
+			<xs:enumeration value="All Nation"/>
+			<xs:enumeration value="All Risk"/>
+			<xs:enumeration value="Allianz"/>
+			<xs:enumeration value="Allied"/>
+			<xs:enumeration value="Allstate"/>
+			<xs:enumeration value="American Alliance"/>
+			<xs:enumeration value="American Automobile Insurance"/>
+			<xs:enumeration value="American Banks"/>
+			<xs:enumeration value="American Casualty"/>
+			<xs:enumeration value="American Deposit Insurance"/>
+			<xs:enumeration value="American Direct Business Insurance"/>
+			<xs:enumeration value="American Economy"/>
+			<xs:enumeration value="American Empire Insurance"/>
+			<xs:enumeration value="American Family"/>
+			<xs:enumeration value="American Financial"/>
+			<xs:enumeration value="American Health Underwriters"/>
+			<xs:enumeration value="American Home Assurance"/>
+			<xs:enumeration value="American Insurance"/>
+			<xs:enumeration value="American International"/>
+			<xs:enumeration value="American International Pacific"/>
+			<xs:enumeration value="American International South"/>
+			<xs:enumeration value="American Manufacturers"/>
+			<xs:enumeration value="American Mayflower Insurance"/>
+			<xs:enumeration value="American Medical Securities"/>
+			<xs:enumeration value="American Motorists Insurance"/>
+			<xs:enumeration value="American National"/>
+			<xs:enumeration value="American National Property and Casualty"/>
+			<xs:enumeration value="American Premier"/>
+			<xs:enumeration value="American Protection Insurance"/>
+			<xs:enumeration value="American Reliable"/>
+			<xs:enumeration value="American Republic"/>
+			<xs:enumeration value="American Savers Plan"/>
+			<xs:enumeration value="American Service Insurance"/>
+			<xs:enumeration value="American Skyline Insurance Company"/>
+			<xs:enumeration value="American Spirit Insurance"/>
+			<xs:enumeration value="American Standard"/>
+			<xs:enumeration value="American States"/>
+			<xs:enumeration value="America's Ins. Consultants"/>
+			<xs:enumeration value="AmeriPlan"/>
+			<xs:enumeration value="Amerisure"/>
+			<xs:enumeration value="Amica"/>
+			<xs:enumeration value="Answer Financial"/>
+			<xs:enumeration value="Anthem"/>
+			<xs:enumeration value="API"/>
+			<xs:enumeration value="Arbella"/>
+			<xs:enumeration value="Arizona General"/>
+			<xs:enumeration value="Armed Forces Insurance"/>
+			<xs:enumeration value="Assigned Risk"/>
+			<xs:enumeration value="Associated Indemnity"/>
+			<xs:enumeration value="Associated Insurance Managers"/>
+			<xs:enumeration value="Assurant"/>
+			<xs:enumeration value="Atlanta Casualty"/>
+			<xs:enumeration value="Atlanta Specialty"/>
+			<xs:enumeration value="Atlantic Indemnity"/>
+			<xs:enumeration value="Atlantis"/>
+			<xs:enumeration value="Austin Mutual"/>
+			<xs:enumeration value="Auto Club Insurance Company"/>
+			<xs:enumeration value="Auto Owners"/>
+			<xs:enumeration value="Avomark"/>
+			<xs:enumeration value="AXA Advisors"/>
+			<xs:enumeration value="Badger Mutual"/>
+			<xs:enumeration value="Bankers &amp; Shippers"/>
+			<xs:enumeration value="Bankers Life and Casualty"/>
+			<xs:enumeration value="Banner Life"/>
+			<xs:enumeration value="Best Agency USA"/>
+			<xs:enumeration value="Blue Cross"/>
+			<xs:enumeration value="Blue Cross / Blue Shield"/>
+			<xs:enumeration value="Blue Shield of California"/>
+			<xs:enumeration value="Bonneville"/>
+			<xs:enumeration value="Boston Old Colony"/>
+			<xs:enumeration value="Brooke Insurance"/>
+			<xs:enumeration value="Builders"/>
+			<xs:enumeration value="Cal Farm Insurance"/>
+			<xs:enumeration value="California Casualty"/>
+			<xs:enumeration value="California State Automobile Association"/>
+			<xs:enumeration value="Camden"/>
+			<xs:enumeration value="Capital Choice"/>
+			<xs:enumeration value="Care Entr?e"/>
+			<xs:enumeration value="Cascade National Ins"/>
+			<xs:enumeration value="Casualty Assurance"/>
+			<xs:enumeration value="Celtic Insurance"/>
+			<xs:enumeration value="Centennial"/>
+			<xs:enumeration value="Charter Oak"/>
+			<xs:enumeration value="Chase Insurance Group"/>
+			<xs:enumeration value="Chicago Insurance"/>
+			<xs:enumeration value="Chubb"/>
+			<xs:enumeration value="Church Mutual"/>
+			<xs:enumeration value="Cigna"/>
+			<xs:enumeration value="Citizens"/>
+			<xs:enumeration value="Clarendon"/>
+			<xs:enumeration value="Clarendon National Insurance"/>
+			<xs:enumeration value="Cloverleaf"/>
+			<xs:enumeration value="CNA"/>
+			<xs:enumeration value="Colonial"/>
+			<xs:enumeration value="Combined"/>
+			<xs:enumeration value="Commercial Union"/>
+			<xs:enumeration value="Commonwealth"/>
+			<xs:enumeration value="Company Not Listed"/>
+			<xs:enumeration value="Comparison Market"/>
+			<xs:enumeration value="Continental"/>
+			<xs:enumeration value="Continental Casualty"/>
+			<xs:enumeration value="Continental Divide Insurance"/>
+			<xs:enumeration value="Cotton States"/>
+			<xs:enumeration value="Cottonwood"/>
+			<xs:enumeration value="Country Insurance and Financial Services"/>
+			<xs:enumeration value="Countrywide"/>
+			<xs:enumeration value="Credit Union"/>
+			<xs:enumeration value="Criterion"/>
+			<xs:enumeration value="CSE Insurance Group"/>
+			<xs:enumeration value="CUNA Mutual"/>
+			<xs:enumeration value="Dairyland"/>
+			<xs:enumeration value="Dakota Fire"/>
+			<xs:enumeration value="Deerbrook"/>
+			<xs:enumeration value="Depositors Emcasc"/>
+			<xs:enumeration value="Dixie"/>
+			<xs:enumeration value="Ebco General"/>
+			<xs:enumeration value="Economy"/>
+			<xs:enumeration value="Economy Fire &amp; Casualty"/>
+			<xs:enumeration value="Economy Preferred"/>
+			<xs:enumeration value="eFinancial"/>
+			<xs:enumeration value="eHealth"/>
+			<xs:enumeration value="Electric Insurance"/>
+			<xs:enumeration value="Elephant"/>
+			<xs:enumeration value="EMC"/>
+			<xs:enumeration value="Empire"/>
+			<xs:enumeration value="Employers Fire"/>
+			<xs:enumeration value="Ensure"/>
+			<xs:enumeration value="Equitable Life"/>
+			<xs:enumeration value="Erie"/>
+			<xs:enumeration value="Esurance"/>
+			<xs:enumeration value="Explorer"/>
+			<xs:enumeration value="Facility"/>
+			<xs:enumeration value="Farm and Ranch"/>
+			<xs:enumeration value="Farm Bureau"/>
+			<xs:enumeration value="Farm Bureau St. Pau"/>
+			<xs:enumeration value="Farmers"/>
+			<xs:enumeration value="Farmers Union"/>
+			<xs:enumeration value="Farmland"/>
+			<xs:enumeration value="Federal"/>
+			<xs:enumeration value="Federated"/>
+			<xs:enumeration value="Fidelity Insurance Company"/>
+			<xs:enumeration value="FinanceBox.com"/>
+			<xs:enumeration value="Financial Indemnity"/>
+			<xs:enumeration value="Fire and Casualty Insurance Co of CT"/>
+			<xs:enumeration value="Firemans Fund"/>
+			<xs:enumeration value="First Acceptance Insurance"/>
+			<xs:enumeration value="First American"/>
+			<xs:enumeration value="First Financial"/>
+			<xs:enumeration value="First General"/>
+			<xs:enumeration value="First National"/>
+			<xs:enumeration value="Ford Motor Credit"/>
+			<xs:enumeration value="Foremost"/>
+			<xs:enumeration value="Foresters"/>
+			<xs:enumeration value="Fortis"/>
+			<xs:enumeration value="Franklin"/>
+			<xs:enumeration value="Geico"/>
+			<xs:enumeration value="General Accident"/>
+			<xs:enumeration value="General Insurance"/>
+			<xs:enumeration value="Genworth Financial"/>
+			<xs:enumeration value="Globe"/>
+			<xs:enumeration value="GMAC"/>
+			<xs:enumeration value="Golden Rule (map to United Healthcare)"/>
+			<xs:enumeration value="Golden Rule Insurance"/>
+			<xs:enumeration value="Government Employees"/>
+			<xs:enumeration value="Grange"/>
+			<xs:enumeration value="GRE Harleysville H"/>
+			<xs:enumeration value="Great American"/>
+			<xs:enumeration value="Great Way"/>
+			<xs:enumeration value="Great West"/>
+			<xs:enumeration value="Grinnell Mutual"/>
+			<xs:enumeration value="Guaranty National"/>
+			<xs:enumeration value="Guardian"/>
+			<xs:enumeration value="Guide One"/>
+			<xs:enumeration value="Halcyon"/>
+			<xs:enumeration value="Hanover Lloyd's Insurance Company"/>
+			<xs:enumeration value="Happy Days"/>
+			<xs:enumeration value="Hartford"/>
+			<xs:enumeration value="Hartford AARP"/>
+			<xs:enumeration value="Harvard Pilgrim"/>
+			<xs:enumeration value="Hawkeye Security"/>
+			<xs:enumeration value="Health Benefits Direct"/>
+			<xs:enumeration value="Health Care Solutions"/>
+			<xs:enumeration value="Health Choice One"/>
+			<xs:enumeration value="Healthmarkets"/>
+			<xs:enumeration value="Health Net"/>
+			<xs:enumeration value="Health Plus of America"/>
+			<xs:enumeration value="HealthShare American"/>
+			<xs:enumeration value="Heritage"/>
+			<xs:enumeration value="Homeinsurance"/>
+			<xs:enumeration value="Homeland Health"/>
+			<xs:enumeration value="Horace Mann"/>
+			<xs:enumeration value="Humana"/>
+			<xs:enumeration value="IAB"/>
+			<xs:enumeration value="IDS"/>
+			<xs:enumeration value="IFA Auto Insurance"/>
+			<xs:enumeration value="IGF"/>
+			<xs:enumeration value="IIS Insurance"/>
+			<xs:enumeration value="Independent"/>
+			<xs:enumeration value="Infinity"/>
+			<xs:enumeration value="InSphere"/>
+			<xs:enumeration value="Insur. of Evanston"/>
+			<xs:enumeration value="Insurance Insight"/>
+			<xs:enumeration value="Insurance.com"/>
+			<xs:enumeration value="Integon"/>
+			<xs:enumeration value="Interstate"/>
+			<xs:enumeration value="Investors Life"/>
+			<xs:enumeration value="John Deere"/>
+			<xs:enumeration value="John Hancock"/>
+			<xs:enumeration value="Kaiser Permanente"/>
+			<xs:enumeration value="Kemper"/>
+			<xs:enumeration value="Kentucky Central"/>
+			<xs:enumeration value="Landmark American Insurance"/>
+			<xs:enumeration value="Leader Insurance"/>
+			<xs:enumeration value="League General"/>
+			<xs:enumeration value="Liberty Insurance Corp"/>
+			<xs:enumeration value="Liberty Mutual"/>
+			<xs:enumeration value="Liberty National"/>
+			<xs:enumeration value="Liberty Northwest"/>
+			<xs:enumeration value="LifeWise Health Plan"/>
+			<xs:enumeration value="Lincoln Benefit Life"/>
+			<xs:enumeration value="LTC Financial Partners"/>
+			<xs:enumeration value="Lumbermens Mutual"/>
+			<xs:enumeration value="Marathon"/>
+			<xs:enumeration value="Markel American"/>
+			<xs:enumeration value="Maryland Casualty"/>
+			<xs:enumeration value="Mass Mutual"/>
+			<xs:enumeration value="Matrix Direct"/>
+			<xs:enumeration value="MEGA Life and Health"/>
+			<xs:enumeration value="Mega/Midwest"/>
+			<xs:enumeration value="Mendota"/>
+			<xs:enumeration value="Merastar"/>
+			<xs:enumeration value="Mercury"/>
+			<xs:enumeration value="MetLife"/>
+			<xs:enumeration value="Metropolitan Insurance Co."/>
+			<xs:enumeration value="Mid Century Insurance"/>
+			<xs:enumeration value="Mid-Continent Casualty"/>
+			<xs:enumeration value="Middlesex Insurance"/>
+			<xs:enumeration value="Midland National Life"/>
+			<xs:enumeration value="Midwest Mutual"/>
+			<xs:enumeration value="Millbank"/>
+			<xs:enumeration value="Millers Mutual"/>
+			<xs:enumeration value="Milwaukee"/>
+			<xs:enumeration value="Milwaukee General"/>
+			<xs:enumeration value="Milwaukee Guardian"/>
+			<xs:enumeration value="Milwaukee Mutual"/>
+			<xs:enumeration value="Minnehoma"/>
+			<xs:enumeration value="Missouri General"/>
+			<xs:enumeration value="Modern Woodmen of America"/>
+			<xs:enumeration value="Mony Group"/>
+			<xs:enumeration value="Mortgage Protection Bureau"/>
+			<xs:enumeration value="Motors"/>
+			<xs:enumeration value="Mountain Laurel"/>
+			<xs:enumeration value="Mutual Insurance"/>
+			<xs:enumeration value="Mutual Of Enumclaw"/>
+			<xs:enumeration value="Mutual of New York"/>
+			<xs:enumeration value="Mutual Of Omaha"/>
+			<xs:enumeration value="National Alliance"/>
+			<xs:enumeration value="National Ben Franklin Insurance"/>
+			<xs:enumeration value="National Casualty"/>
+			<xs:enumeration value="National Colonial"/>
+			<xs:enumeration value="National Continental"/>
+			<xs:enumeration value="National Fire Insurance Company of Hartford"/>
+			<xs:enumeration value="National Indemnity"/>
+			<xs:enumeration value="National Insurance"/>
+			<xs:enumeration value="National Merit"/>
+			<xs:enumeration value="National Surety Corp"/>
+			<xs:enumeration value="National Union Fire Insurance"/>
+			<xs:enumeration value="National Union Fire Insurance of LA"/>
+			<xs:enumeration value="National Union Fire Insurance of PA"/>
+			<xs:enumeration value="Nationwide"/>
+			<xs:enumeration value="Nat'l Farmers Union"/>
+			<xs:enumeration value="New England Financial"/>
+			<xs:enumeration value="New York Life"/>
+			<xs:enumeration value="North American"/>
+			<xs:enumeration value="North Pacific"/>
+			<xs:enumeration value="North Pointe"/>
+			<xs:enumeration value="North Shore"/>
+			<xs:enumeration value="Northern Capital"/>
+			<xs:enumeration value="Northern States"/>
+			<xs:enumeration value="Northland"/>
+			<xs:enumeration value="Northwest Pacific"/>
+			<xs:enumeration value="Northwestern"/>
+			<xs:enumeration value="Northwestern Mutual"/>
+			<xs:enumeration value="Northwestern Mutual Life"/>
+			<xs:enumeration value="Northwestern Pacific Indemnity"/>
+			<xs:enumeration value="NuStar Insurance"/>
+			<xs:enumeration value="Ohio Casualty"/>
+			<xs:enumeration value="Ohio Security"/>
+			<xs:enumeration value="Olympia"/>
+			<xs:enumeration value="Omaha"/>
+			<xs:enumeration value="Omni Ins."/>
+			<xs:enumeration value="Omni Insurance"/>
+			<xs:enumeration value="Oregon Mutual"/>
+			<xs:enumeration value="Orion Ins."/>
+			<xs:enumeration value="Orion Insurance"/>
+			<xs:enumeration value="Oxford Health Plans"/>
+			<xs:enumeration value="PacifiCare"/>
+			<xs:enumeration value="Pacific Indemnity"/>
+			<xs:enumeration value="Pacific Insurance"/>
+			<xs:enumeration value="Pafco"/>
+			<xs:enumeration value="Paloverde"/>
+			<xs:enumeration value="Patriot General"/>
+			<xs:enumeration value="Peak Property and Casualty Insurance"/>
+			<xs:enumeration value="Pemco"/>
+			<xs:enumeration value="Penn America"/>
+			<xs:enumeration value="Penn Mutual"/>
+			<xs:enumeration value="Pennsylvania Natl"/>
+			<xs:enumeration value="Phoenix"/>
+			<xs:enumeration value="Physicians"/>
+			<xs:enumeration value="Pinnacle"/>
+			<xs:enumeration value="Pioneer Life"/>
+			<xs:enumeration value="Plymouth Rock"/>
+			<xs:enumeration value="Preferred Abstainers"/>
+			<xs:enumeration value="Preferred Mutual"/>
+			<xs:enumeration value="Premier"/>
+			<xs:enumeration value="Prestige"/>
+			<xs:enumeration value="Primerica"/>
+			<xs:enumeration value="Principal Financial"/>
+			<xs:enumeration value="Progressive"/>
+			<xs:enumeration value="Protective Life"/>
+			<xs:enumeration value="Provident"/>
+			<xs:enumeration value="Prudential"/>
+			<xs:enumeration value="Quality"/>
+			<xs:enumeration value="Ramsey"/>
+			<xs:enumeration value="Ranger"/>
+			<xs:enumeration value="RBC Liberty"/>
+			<xs:enumeration value="RBC Liberty Insurance"/>
+			<xs:enumeration value="Regal"/>
+			<xs:enumeration value="Reliance"/>
+			<xs:enumeration value="Reliant"/>
+			<xs:enumeration value="Republic Indemnity"/>
+			<xs:enumeration value="Response Insurance"/>
+			<xs:enumeration value="Rockford Mutual"/>
+			<xs:enumeration value="Rodney D. Young"/>
+			<xs:enumeration value="Safeco"/>
+			<xs:enumeration value="Safeway"/>
+			<xs:enumeration value="Sea West Insurance"/>
+			<xs:enumeration value="Secura"/>
+			<xs:enumeration value="Security Insurance"/>
+			<xs:enumeration value="Security National"/>
+			<xs:enumeration value="Sedgwick James"/>
+			<xs:enumeration value="Sentinel Insurance"/>
+			<xs:enumeration value="Sentry"/>
+			<xs:enumeration value="Shelter"/>
+			<xs:enumeration value="Skandia TIG Tita"/>
+			<xs:enumeration value="Spectrum"/>
+			<xs:enumeration value="St. Paul"/>
+			<xs:enumeration value="Standard Fire Insurance Company"/>
+			<xs:enumeration value="Standard Guaranty"/>
+			<xs:enumeration value="State and County Mutual Fire Insurance"/>
+			<xs:enumeration value="State Auto"/>
+			<xs:enumeration value="State Farm"/>
+			<xs:enumeration value="State Mutual"/>
+			<xs:enumeration value="State National"/>
+			<xs:enumeration value="Sun Coast"/>
+			<xs:enumeration value="Superior"/>
+			<xs:enumeration value="Superior Guaranty Insurance"/>
+			<xs:enumeration value="Sure Health Plans"/>
+			<xs:enumeration value="Sutter"/>
+			<xs:enumeration value="The Ahbe Group"/>
+			<xs:enumeration value="The Credo Group"/>
+			<xs:enumeration value="The General"/>
+			<xs:enumeration value="TICO Insurance"/>
+			<xs:enumeration value="TIG Countrywide Insurance"/>
+			<xs:enumeration value="Titan"/>
+			<xs:enumeration value="Total"/>
+			<xs:enumeration value="Tower"/>
+			<xs:enumeration value="TransAmerica"/>
+			<xs:enumeration value="Travelers"/>
+			<xs:enumeration value="Trinity Universal"/>
+			<xs:enumeration value="Tri-State Consumer"/>
+			<xs:enumeration value="Trust Hall"/>
+			<xs:enumeration value="Tufts Health Plan"/>
+			<xs:enumeration value="Twentieth Century"/>
+			<xs:enumeration value="Twin City Fire Insurance"/>
+			<xs:enumeration value="Unicare"/>
+			<xs:enumeration value="Uniguard"/>
+			<xs:enumeration value="Union"/>
+			<xs:enumeration value="United American"/>
+			<xs:enumeration value="United Financial"/>
+			<xs:enumeration value="United Fire &amp; Casual"/>
+			<xs:enumeration value="United Health Care (also Golden Rule)"/>
+			<xs:enumeration value="United Insurance"/>
+			<xs:enumeration value="United Pacific Insurance"/>
+			<xs:enumeration value="United Security"/>
+			<xs:enumeration value="United Services Auto"/>
+			<xs:enumeration value="United States Fideli"/>
+			<xs:enumeration value="Unitrin"/>
+			<xs:enumeration value="Universal Underwriters Insurance"/>
+			<xs:enumeration value="US Financial"/>
+			<xs:enumeration value="US Health Advisors"/>
+			<xs:enumeration value="US Health Group"/>
+			<xs:enumeration value="USA Benefits/Continental General"/>
+			<xs:enumeration value="USAA"/>
+			<xs:enumeration value="USF and G"/>
+			<xs:enumeration value="USF&amp;G"/>
+			<xs:enumeration value="Utah Home and Fire"/>
+			<xs:enumeration value="Utica"/>
+			<xs:enumeration value="Vasa North Atlantic"/>
+			<xs:enumeration value="Vigilant"/>
+			<xs:enumeration value="Viking"/>
+			<xs:enumeration value="Wawaunesa"/>
+			<xs:enumeration value="Wellington"/>
+			<xs:enumeration value="Wellpoint"/>
+			<xs:enumeration value="West American"/>
+			<xs:enumeration value="West Bend Mutual"/>
+			<xs:enumeration value="West Field"/>
+			<xs:enumeration value="West Plains"/>
+			<xs:enumeration value="Western and Southern Life"/>
+			<xs:enumeration value="Western Mutual"/>
+			<xs:enumeration value="Western National"/>
+			<xs:enumeration value="Western Southern Life"/>
+			<xs:enumeration value="Westfield"/>
+			<xs:enumeration value="William Penn"/>
+			<xs:enumeration value="Windsor"/>
+			<xs:enumeration value="Windstar"/>
+			<xs:enumeration value="Wisconsin Mutual"/>
+			<xs:enumeration value="Woodlands Financial Group"/>
+			<xs:enumeration value="Workmans Auto"/>
+			<xs:enumeration value="World Insurance"/>
+			<xs:enumeration value="Worldwide"/>
+			<xs:enumeration value="Yellow Key"/>
+			<xs:enumeration value="Yosemite"/>
+			<xs:enumeration value="Zurich North America"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CompanyCodeValues">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="1"/> <!--21st Century-->
+			<xs:enumeration value="2"/> <!--AAA-->
+			<xs:enumeration value="3"/> <!--AABCO-->
+			<xs:enumeration value="4"/> <!--AARP-->
+			<xs:enumeration value="5"/> <!--Access Insurance-->
+			<xs:enumeration value="6"/> <!--Acordia-->
+			<xs:enumeration value="7"/> <!--Aegis Security-->
+			<xs:enumeration value="8"/> <!--AETNA-->
+			<xs:enumeration value="9"/> <!--Affirmative-->
+			<xs:enumeration value="10"/> <!--AFLAC-->
+			<xs:enumeration value="11"/> <!--AHCP-->
+			<xs:enumeration value="12"/> <!--AIG-->
+			<xs:enumeration value="13"/> <!--AIU-->
+			<xs:enumeration value="417"/> <!--Alfa Insurance-->
+			<xs:enumeration value="14"/> <!--All Nation-->
+			<xs:enumeration value="15"/> <!--All Risk-->
+			<xs:enumeration value="16"/> <!--Allianz-->
+			<xs:enumeration value="17"/> <!--Allied-->
+			<xs:enumeration value="18"/> <!--Allstate-->
+			<xs:enumeration value="19"/> <!--American Alliance-->
+			<xs:enumeration value="20"/> <!--American Automobile Insurance-->
+			<xs:enumeration value="21"/> <!--American Banks-->
+			<xs:enumeration value="22"/> <!--American Casualty-->
+			<xs:enumeration value="23"/> <!--American Deposit Insurance-->
+			<xs:enumeration value="24"/> <!--American Direct Business Insurance-->
+			<xs:enumeration value="25"/> <!--American Economy-->
+			<xs:enumeration value="26"/> <!--American Empire Insurance-->
+			<xs:enumeration value="27"/> <!--American Family-->
+			<xs:enumeration value="28"/> <!--American Financial-->
+			<xs:enumeration value="29"/> <!--American Health Underwriters-->
+			<xs:enumeration value="30"/> <!--American Home Assurance-->
+			<xs:enumeration value="31"/> <!--American Insurance-->
+			<xs:enumeration value="32"/> <!--American International-->
+			<xs:enumeration value="33"/> <!--American International Pacific-->
+			<xs:enumeration value="34"/> <!--American International South-->
+			<xs:enumeration value="35"/> <!--American Manufacturers-->
+			<xs:enumeration value="36"/> <!--American Mayflower Insurance-->
+			<xs:enumeration value="37"/> <!--American Medical Securities-->
+			<xs:enumeration value="38"/> <!--American Motorists Insurance-->
+			<xs:enumeration value="39"/> <!--American National-->
+			<xs:enumeration value="40"/> <!--American National Property and Casualty-->
+			<xs:enumeration value="41"/> <!--American Premier-->
+			<xs:enumeration value="42"/> <!--American Protection Insurance-->
+			<xs:enumeration value="43"/> <!--American Reliable-->
+			<xs:enumeration value="44"/> <!--American Republic-->
+			<xs:enumeration value="45"/> <!--American Savers Plan-->
+			<xs:enumeration value="46"/> <!--American Service Insurance-->
+			<xs:enumeration value="47"/> <!--American Skyline Insurance Company-->
+			<xs:enumeration value="48"/> <!--American Spirit Insurance-->
+			<xs:enumeration value="49"/> <!--American Standard-->
+			<xs:enumeration value="50"/> <!--American States-->
+			<xs:enumeration value="51"/> <!--America's Ins. Consultants-->
+			<xs:enumeration value="52"/> <!--AmeriPlan-->
+			<xs:enumeration value="53"/> <!--Amerisure-->
+			<xs:enumeration value="54"/> <!--Amica-->
+			<xs:enumeration value="55"/> <!--Answer Financial-->
+			<xs:enumeration value="56"/> <!--Anthem-->
+			<xs:enumeration value="57"/> <!--API-->
+			<xs:enumeration value="58"/> <!--Arbella-->
+			<xs:enumeration value="59"/> <!--Arizona General-->
+			<xs:enumeration value="60"/> <!--Armed Forces Insurance-->
+			<xs:enumeration value="61"/> <!--Assigned Risk-->
+			<xs:enumeration value="62"/> <!--Associated Indemnity-->
+			<xs:enumeration value="63"/> <!--Associated Insurance Managers-->
+			<xs:enumeration value="64"/> <!--Assurant-->
+			<xs:enumeration value="65"/> <!--Atlanta Casualty-->
+			<xs:enumeration value="66"/> <!--Atlanta Specialty-->
+			<xs:enumeration value="67"/> <!--Atlantic Indemnity-->
+			<xs:enumeration value="68"/> <!--Atlantis-->
+			<xs:enumeration value="69"/> <!--Austin Mutual-->
+			<xs:enumeration value="70"/> <!--Auto Club Insurance Company-->
+			<xs:enumeration value="71"/> <!--Auto Owners-->
+			<xs:enumeration value="72"/> <!--Avomark-->
+			<xs:enumeration value="73"/> <!--AXA Advisors-->
+			<xs:enumeration value="74"/> <!--Badger Mutual-->
+			<xs:enumeration value="75"/> <!--Bankers & Shippers-->
+			<xs:enumeration value="76"/> <!--Bankers Life and Casualty-->
+			<xs:enumeration value="77"/> <!--Banner Life-->
+			<xs:enumeration value="78"/> <!--Best Agency USA-->
+			<xs:enumeration value="79"/> <!--Blue Cross-->
+			<xs:enumeration value="80"/> <!--Blue Cross / Blue Shield-->
+			<xs:enumeration value="81"/> <!--Blue Shield of California-->
+			<xs:enumeration value="82"/> <!--Bonneville-->
+			<xs:enumeration value="83"/> <!--Boston Old Colony-->
+			<xs:enumeration value="84"/> <!--Brooke Insurance-->
+			<xs:enumeration value="85"/> <!--Builders-->
+			<xs:enumeration value="86"/> <!--Cal Farm Insurance-->
+			<xs:enumeration value="87"/> <!--California Casualty-->
+			<xs:enumeration value="88"/> <!--California State Automobile Association-->
+			<xs:enumeration value="89"/> <!--Camden-->
+			<xs:enumeration value="90"/> <!--Capital Choice-->
+			<xs:enumeration value="91"/> <!--Care Entr?e-->
+			<xs:enumeration value="92"/> <!--Cascade National Ins-->
+			<xs:enumeration value="93"/> <!--Casualty Assurance-->
+			<xs:enumeration value="423"/> <!--Celtic Insurance-->
+			<xs:enumeration value="94"/> <!--Centennial-->
+			<xs:enumeration value="95"/> <!--Charter Oak-->
+			<xs:enumeration value="96"/> <!--Chase Insurance Group-->
+			<xs:enumeration value="97"/> <!--Chicago Insurance-->
+			<xs:enumeration value="98"/> <!--Chubb-->
+			<xs:enumeration value="99"/> <!--Church Mutual-->
+			<xs:enumeration value="100"/> <!--Cigna-->
+			<xs:enumeration value="101"/> <!--Citizens-->
+			<xs:enumeration value="102"/> <!--Clarendon-->
+			<xs:enumeration value="103"/> <!--Clarendon National Insurance-->
+			<xs:enumeration value="104"/> <!--Cloverleaf-->
+			<xs:enumeration value="105"/> <!--CNA-->
+			<xs:enumeration value="106"/> <!--Colonial-->
+			<xs:enumeration value="107"/> <!--Combined-->
+			<xs:enumeration value="108"/> <!--Commercial Union-->
+			<xs:enumeration value="109"/> <!--Commonwealth-->
+			<xs:enumeration value="110"/> <!--Company Not Listed-->
+			<xs:enumeration value="111"/> <!--Comparison Market-->
+			<xs:enumeration value="112"/> <!--Continental-->
+			<xs:enumeration value="113"/> <!--Continental Casualty-->
+			<xs:enumeration value="114"/> <!--Continental Divide Insurance-->
+			<xs:enumeration value="115"/> <!--Cotton States-->
+			<xs:enumeration value="116"/> <!--Cottonwood-->
+			<xs:enumeration value="117"/> <!--Country Insurance and Financial Services-->
+			<xs:enumeration value="118"/> <!--Countrywide-->
+			<xs:enumeration value="119"/> <!--Credit Union-->
+			<xs:enumeration value="120"/> <!--Criterion-->
+			<xs:enumeration value="121"/> <!--CSE Insurance Group-->
+			<xs:enumeration value="122"/> <!--CUNA Mutual-->
+			<xs:enumeration value="123"/> <!--Dairyland-->
+			<xs:enumeration value="124"/> <!--Dakota Fire-->
+			<xs:enumeration value="125"/> <!--Deerbrook-->
+			<xs:enumeration value="126"/> <!--Depositors Emcasc-->
+			<xs:enumeration value="127"/> <!--Dixie-->
+			<xs:enumeration value="128"/> <!--Ebco General-->
+			<xs:enumeration value="129"/> <!--Economy-->
+			<xs:enumeration value="130"/> <!--Economy Fire & Casualty-->
+			<xs:enumeration value="131"/> <!--Economy Preferred-->
+			<xs:enumeration value="435"/> <!--eFinancial-->
+			<xs:enumeration value="132"/> <!--eHealth-->
+			<xs:enumeration value="133"/> <!--Electric Insurance-->
+			<xs:enumeration value="418"/> <!--Elephant-->
+			<xs:enumeration value="134"/> <!--EMC-->
+			<xs:enumeration value="135"/> <!--Empire-->
+			<xs:enumeration value="136"/> <!--Employers Fire-->
+			<xs:enumeration value="137"/> <!--Ensure-->
+			<xs:enumeration value="138"/> <!--Equitable Life-->
+			<xs:enumeration value="139"/> <!--Erie-->
+			<xs:enumeration value="140"/> <!--Esurance-->
+			<xs:enumeration value="141"/> <!--Explorer-->
+			<xs:enumeration value="142"/> <!--Facility-->
+			<xs:enumeration value="143"/> <!--Farm and Ranch-->
+			<xs:enumeration value="144"/> <!--Farm Bureau-->
+			<xs:enumeration value="145"/> <!--Farm Bureau St. Pau-->
+			<xs:enumeration value="146"/> <!--Farmers-->
+			<xs:enumeration value="147"/> <!--Farmers Union-->
+			<xs:enumeration value="148"/> <!--Farmland-->
+			<xs:enumeration value="149"/> <!--Federal-->
+			<xs:enumeration value="150"/> <!--Federated-->
+			<xs:enumeration value="151"/> <!--Fidelity Insurance Company-->
+			<xs:enumeration value="152"/> <!--FinanceBox.com-->
+			<xs:enumeration value="153"/> <!--Financial Indemnity-->
+			<xs:enumeration value="154"/> <!--Fire and Casualty Insurance Co of CT-->
+			<xs:enumeration value="155"/> <!--Firemans Fund-->
+			<xs:enumeration value="156"/> <!--First Acceptance Insurance-->
+			<xs:enumeration value="157"/> <!--First American-->
+			<xs:enumeration value="158"/> <!--First Financial-->
+			<xs:enumeration value="159"/> <!--First General-->
+			<xs:enumeration value="160"/> <!--First National-->
+			<xs:enumeration value="161"/> <!--Ford Motor Credit-->
+			<xs:enumeration value="162"/> <!--Foremost-->
+			<xs:enumeration value="163"/> <!--Foresters-->
+			<xs:enumeration value="164"/> <!--Fortis-->
+			<xs:enumeration value="165"/> <!--Franklin-->
+			<xs:enumeration value="166"/> <!--Geico-->
+			<xs:enumeration value="167"/> <!--General Accident-->
+			<xs:enumeration value="168"/> <!--General Insurance-->
+			<xs:enumeration value="169"/> <!--Genworth Financial-->
+			<xs:enumeration value="170"/> <!--Globe-->
+			<xs:enumeration value="171"/> <!--GMAC-->
+			<xs:enumeration value="172"/> <!--Golden Rule (map to United Healthcare)-->
+			<xs:enumeration value="173"/> <!--Golden Rule Insurance-->
+			<xs:enumeration value="174"/> <!--Government Employees-->
+			<xs:enumeration value="175"/> <!--Grange-->
+			<xs:enumeration value="176"/> <!--GRE Harleysville H-->
+			<xs:enumeration value="177"/> <!--Great American-->
+			<xs:enumeration value="178"/> <!--Great Way-->
+			<xs:enumeration value="179"/> <!--Great West-->
+			<xs:enumeration value="180"/> <!--Grinnell Mutual-->
+			<xs:enumeration value="181"/> <!--Guaranty National-->
+			<xs:enumeration value="182"/> <!--Guardian-->
+			<xs:enumeration value="183"/> <!--Guide One-->
+			<xs:enumeration value="184"/> <!--Halcyon-->
+			<xs:enumeration value="185"/> <!--Hanover Lloyd's Insurance Company-->
+			<xs:enumeration value="186"/> <!--Happy Days-->
+			<xs:enumeration value="187"/> <!--Hartford-->
+			<xs:enumeration value="188"/> <!--Hartford AARP-->
+			<xs:enumeration value="424"/> <!--Harvard Pilgrim-->
+			<xs:enumeration value="189"/> <!--Hawkeye Security-->
+			<xs:enumeration value="190"/> <!--Health Benefits Direct-->
+			<xs:enumeration value="425"/> <!--Health Care Solutions-->
+			<xs:enumeration value="191"/> <!--Health Choice One-->
+			<xs:enumeration value="426"/> <!--Healthmarkets-->
+			<xs:enumeration value="192"/> <!--Health Net-->
+			<xs:enumeration value="193"/> <!--Health Plus of America-->
+			<xs:enumeration value="194"/> <!--HealthShare American-->
+			<xs:enumeration value="195"/> <!--Heritage-->
+			<xs:enumeration value="440"/> <!--Homeinsurance-->
+			<xs:enumeration value="427"/> <!--Homeland Health-->
+			<xs:enumeration value="196"/> <!--Horace Mann-->
+			<xs:enumeration value="197"/> <!--Humana-->
+			<xs:enumeration value="198"/> <!--IAB-->
+			<xs:enumeration value="199"/> <!--IDS-->
+			<xs:enumeration value="200"/> <!--IFA Auto Insurance-->
+			<xs:enumeration value="201"/> <!--IGF-->
+			<xs:enumeration value="419"/> <!--IIS Insurance-->
+			<xs:enumeration value="202"/> <!--Independent-->
+			<xs:enumeration value="203"/> <!--Infinity-->
+			<xs:enumeration value="428"/> <!--InSphere-->
+			<xs:enumeration value="204"/> <!--Insur. of Evanston-->
+			<xs:enumeration value="205"/> <!--Insurance Insight-->
+			<xs:enumeration value="206"/> <!--Insurance.com-->
+			<xs:enumeration value="207"/> <!--Integon-->
+			<xs:enumeration value="208"/> <!--Interstate-->
+			<xs:enumeration value="429"/> <!--Investors Life-->
+			<xs:enumeration value="209"/> <!--John Deere-->
+			<xs:enumeration value="210"/> <!--John Hancock-->
+			<xs:enumeration value="211"/> <!--Kaiser Permanente-->
+			<xs:enumeration value="212"/> <!--Kemper-->
+			<xs:enumeration value="213"/> <!--Kentucky Central-->
+			<xs:enumeration value="214"/> <!--Landmark American Insurance-->
+			<xs:enumeration value="215"/> <!--Leader Insurance-->
+			<xs:enumeration value="216"/> <!--League General-->
+			<xs:enumeration value="217"/> <!--Liberty Insurance Corp-->
+			<xs:enumeration value="218"/> <!--Liberty Mutual-->
+			<xs:enumeration value="219"/> <!--Liberty National-->
+			<xs:enumeration value="220"/> <!--Liberty Northwest-->
+			<xs:enumeration value="430"/> <!--LifeWise Health Plan-->
+			<xs:enumeration value="221"/> <!--Lincoln Benefit Life-->
+			<xs:enumeration value="222"/> <!--LTC Financial Partners-->
+			<xs:enumeration value="223"/> <!--Lumbermens Mutual-->
+			<xs:enumeration value="224"/> <!--Marathon-->
+			<xs:enumeration value="225"/> <!--Markel American-->
+			<xs:enumeration value="226"/> <!--Maryland Casualty-->
+			<xs:enumeration value="227"/> <!--Mass Mutual-->
+			<xs:enumeration value="436"/> <!--Matrix Direct-->
+			<xs:enumeration value="228"/> <!--MEGA Life and Health-->
+			<xs:enumeration value="229"/> <!--Mega/Midwest-->
+			<xs:enumeration value="230"/> <!--Mendota-->
+			<xs:enumeration value="231"/> <!--Merastar-->
+			<xs:enumeration value="232"/> <!--Mercury-->
+			<xs:enumeration value="233"/> <!--MetLife-->
+			<xs:enumeration value="431"/> <!--Metropolitan Insurance Co.-->
+			<xs:enumeration value="234"/> <!--Mid Century Insurance-->
+			<xs:enumeration value="235"/> <!--Mid-Continent Casualty-->
+			<xs:enumeration value="236"/> <!--Middlesex Insurance-->
+			<xs:enumeration value="237"/> <!--Midland National Life-->
+			<xs:enumeration value="238"/> <!--Midwest Mutual-->
+			<xs:enumeration value="239"/> <!--Millbank-->
+			<xs:enumeration value="240"/> <!--Millers Mutual-->
+			<xs:enumeration value="241"/> <!--Milwaukee-->
+			<xs:enumeration value="242"/> <!--Milwaukee General-->
+			<xs:enumeration value="243"/> <!--Milwaukee Guardian-->
+			<xs:enumeration value="244"/> <!--Milwaukee Mutual-->
+			<xs:enumeration value="245"/> <!--Minnehoma-->
+			<xs:enumeration value="246"/> <!--Missouri General-->
+			<xs:enumeration value="247"/> <!--Modern Woodmen of America-->
+			<xs:enumeration value="248"/> <!--Mony Group-->
+			<xs:enumeration value="249"/> <!--Mortgage Protection Bureau-->
+			<xs:enumeration value="250"/> <!--Motors-->
+			<xs:enumeration value="251"/> <!--Mountain Laurel-->
+			<xs:enumeration value="252"/> <!--Mutual Insurance-->
+			<xs:enumeration value="253"/> <!--Mutual Of Enumclaw-->
+			<xs:enumeration value="437"/> <!--Mutual of New York-->
+			<xs:enumeration value="254"/> <!--Mutual Of Omaha-->
+			<xs:enumeration value="255"/> <!--National Alliance-->
+			<xs:enumeration value="256"/> <!--National Ben Franklin Insurance-->
+			<xs:enumeration value="257"/> <!--National Casualty-->
+			<xs:enumeration value="258"/> <!--National Colonial-->
+			<xs:enumeration value="259"/> <!--National Continental-->
+			<xs:enumeration value="260"/> <!--National Fire Insurance Company of Hartford-->
+			<xs:enumeration value="261"/> <!--National Indemnity-->
+			<xs:enumeration value="262"/> <!--National Insurance-->
+			<xs:enumeration value="263"/> <!--National Merit-->
+			<xs:enumeration value="264"/> <!--National Surety Corp-->
+			<xs:enumeration value="265"/> <!--National Union Fire Insurance-->
+			<xs:enumeration value="266"/> <!--National Union Fire Insurance of LA-->
+			<xs:enumeration value="267"/> <!--National Union Fire Insurance of PA-->
+			<xs:enumeration value="268"/> <!--Nationwide-->
+			<xs:enumeration value="269"/> <!--Nat'l Farmers Union-->
+			<xs:enumeration value="270"/> <!--New England Financial-->
+			<xs:enumeration value="271"/> <!--New York Life-->
+			<xs:enumeration value="272"/> <!--North American-->
+			<xs:enumeration value="273"/> <!--North Pacific-->
+			<xs:enumeration value="274"/> <!--North Pointe-->
+			<xs:enumeration value="275"/> <!--North Shore-->
+			<xs:enumeration value="276"/> <!--Northern Capital-->
+			<xs:enumeration value="277"/> <!--Northern States-->
+			<xs:enumeration value="278"/> <!--Northland-->
+			<xs:enumeration value="279"/> <!--Northwest Pacific-->
+			<xs:enumeration value="280"/> <!--Northwestern-->
+			<xs:enumeration value="281"/> <!--Northwestern Mutual-->
+			<xs:enumeration value="282"/> <!--Northwestern Mutual Life-->
+			<xs:enumeration value="283"/> <!--Northwestern Pacific Indemnity-->
+			<xs:enumeration value="420"/> <!--NuStar Insurance-->
+			<xs:enumeration value="284"/> <!--Ohio Casualty-->
+			<xs:enumeration value="285"/> <!--Ohio Security-->
+			<xs:enumeration value="286"/> <!--Olympia-->
+			<xs:enumeration value="287"/> <!--Omaha-->
+			<xs:enumeration value="288"/> <!--Omni Ins.-->
+			<xs:enumeration value="289"/> <!--Omni Insurance-->
+			<xs:enumeration value="290"/> <!--Oregon Mutual-->
+			<xs:enumeration value="291"/> <!--Orion Ins.-->
+			<xs:enumeration value="292"/> <!--Orion Insurance-->
+			<xs:enumeration value="432"/> <!--Oxford Health Plans-->
+			<xs:enumeration value="433"/> <!--PacifiCare-->
+			<xs:enumeration value="293"/> <!--Pacific Indemnity-->
+			<xs:enumeration value="294"/> <!--Pacific Insurance-->
+			<xs:enumeration value="295"/> <!--Pafco-->
+			<xs:enumeration value="296"/> <!--Paloverde-->
+			<xs:enumeration value="297"/> <!--Patriot General-->
+			<xs:enumeration value="298"/> <!--Peak Property and Casualty Insurance-->
+			<xs:enumeration value="299"/> <!--Pemco-->
+			<xs:enumeration value="300"/> <!--Penn America-->
+			<xs:enumeration value="301"/> <!--Penn Mutual-->
+			<xs:enumeration value="302"/> <!--Pennsylvania Natl-->
+			<xs:enumeration value="303"/> <!--Phoenix-->
+			<xs:enumeration value="304"/> <!--Physicians-->
+			<xs:enumeration value="305"/> <!--Pinnacle-->
+			<xs:enumeration value="306"/> <!--Pioneer Life-->
+			<xs:enumeration value="422"/> <!--Plymouth Rock-->
+			<xs:enumeration value="307"/> <!--Preferred Abstainers-->
+			<xs:enumeration value="308"/> <!--Preferred Mutual-->
+			<xs:enumeration value="309"/> <!--Premier-->
+			<xs:enumeration value="310"/> <!--Prestige-->
+			<xs:enumeration value="311"/> <!--Primerica-->
+			<xs:enumeration value="312"/> <!--Principal Financial-->
+			<xs:enumeration value="313"/> <!--Progressive-->
+			<xs:enumeration value="314"/> <!--Protective Life-->
+			<xs:enumeration value="315"/> <!--Provident-->
+			<xs:enumeration value="316"/> <!--Prudential-->
+			<xs:enumeration value="317"/> <!--Quality-->
+			<xs:enumeration value="318"/> <!--Ramsey-->
+			<xs:enumeration value="319"/> <!--Ranger-->
+			<xs:enumeration value="320"/> <!--RBC Liberty-->
+			<xs:enumeration value="321"/> <!--RBC Liberty Insurance-->
+			<xs:enumeration value="322"/> <!--Regal-->
+			<xs:enumeration value="323"/> <!--Reliance-->
+			<xs:enumeration value="324"/> <!--Reliant-->
+			<xs:enumeration value="325"/> <!--Republic Indemnity-->
+			<xs:enumeration value="326"/> <!--Response Insurance-->
+			<xs:enumeration value="327"/> <!--Rockford Mutual-->
+			<xs:enumeration value="328"/> <!--Rodney D. Young-->
+			<xs:enumeration value="330"/> <!--Safeco-->
+			<xs:enumeration value="421"/> <!--Safeguard-->
+			<xs:enumeration value="331"/> <!--Safeway-->
+			<xs:enumeration value="332"/> <!--Sea West Insurance-->
+			<xs:enumeration value="333"/> <!--Secura-->
+			<xs:enumeration value="334"/> <!--Security Insurance-->
+			<xs:enumeration value="335"/> <!--Security National-->
+			<xs:enumeration value="336"/> <!--Sedgwick James-->
+			<xs:enumeration value="337"/> <!--Sentinel Insurance-->
+			<xs:enumeration value="338"/> <!--Sentry-->
+			<xs:enumeration value="339"/> <!--Shelter-->
+			<xs:enumeration value="340"/> <!--Skandia TIG Tita-->
+			<xs:enumeration value="341"/> <!--Spectrum-->
+			<xs:enumeration value="342"/> <!--St. Paul-->
+			<xs:enumeration value="343"/> <!--Standard Fire Insurance Company-->
+			<xs:enumeration value="344"/> <!--Standard Guaranty-->
+			<xs:enumeration value="345"/> <!--State and County Mutual Fire Insurance-->
+			<xs:enumeration value="346"/> <!--State Auto-->
+			<xs:enumeration value="347"/> <!--State Farm-->
+			<xs:enumeration value="348"/> <!--State Mutual-->
+			<xs:enumeration value="349"/> <!--State National-->
+			<xs:enumeration value="350"/> <!--Sun Coast-->
+			<xs:enumeration value="351"/> <!--Superior-->
+			<xs:enumeration value="352"/> <!--Superior Guaranty Insurance-->
+			<xs:enumeration value="353"/> <!--Sure Health Plans-->
+			<xs:enumeration value="354"/> <!--Sutter-->
+			<xs:enumeration value="355"/> <!--The Ahbe Group-->
+			<xs:enumeration value="356"/> <!--The Credo Group-->
+			<xs:enumeration value="357"/> <!--The General-->
+			<xs:enumeration value="358"/> <!--TICO Insurance-->
+			<xs:enumeration value="359"/> <!--TIG Countrywide Insurance-->
+			<xs:enumeration value="360"/> <!--Titan-->
+			<xs:enumeration value="361"/> <!--Total-->
+			<xs:enumeration value="362"/> <!--Tower-->
+			<xs:enumeration value="363"/> <!--TransAmerica-->
+			<xs:enumeration value="364"/> <!--Travelers-->
+			<xs:enumeration value="365"/> <!--Trinity Universal-->
+			<xs:enumeration value="366"/> <!--Tri-State Consumer-->
+			<xs:enumeration value="367"/> <!--Trust Hall-->
+			<xs:enumeration value="434"/> <!--Tufts Health Plan-->
+			<xs:enumeration value="368"/> <!--Twentieth Century-->
+			<xs:enumeration value="369"/> <!--Twin City Fire Insurance-->
+			<xs:enumeration value="370"/> <!--Unicare-->
+			<xs:enumeration value="371"/> <!--Uniguard-->
+			<xs:enumeration value="372"/> <!--Union-->
+			<xs:enumeration value="373"/> <!--United American-->
+			<xs:enumeration value="374"/> <!--United Financial-->
+			<xs:enumeration value="375"/> <!--United Fire & Casual-->
+			<xs:enumeration value="376"/> <!--United Health Care (also Golden Rule)-->
+			<xs:enumeration value="377"/> <!--United Insurance-->
+			<xs:enumeration value="438"/> <!--United Pacific Insurance-->
+			<xs:enumeration value="378"/> <!--United Security-->
+			<xs:enumeration value="379"/> <!--United Services Auto-->
+			<xs:enumeration value="380"/> <!--United States Fideli-->
+			<xs:enumeration value="381"/> <!--Unitrin-->
+			<xs:enumeration value="382"/> <!--Universal Underwriters Insurance-->
+			<xs:enumeration value="383"/> <!--US Financial-->
+			<xs:enumeration value="384"/> <!--US Health Advisors-->
+			<xs:enumeration value="439"/> <!--US Health Group-->
+			<xs:enumeration value="385"/> <!--USA Benefits/Continental General-->
+			<xs:enumeration value="386"/> <!--USAA-->
+			<xs:enumeration value="387"/> <!--USF and G-->
+			<xs:enumeration value="388"/> <!--USF&G-->
+			<xs:enumeration value="389"/> <!--Utah Home and Fire-->
+			<xs:enumeration value="390"/> <!--Utica-->
+			<xs:enumeration value="391"/> <!--Vasa North Atlantic-->
+			<xs:enumeration value="392"/> <!--Vigilant-->
+			<xs:enumeration value="393"/> <!--Viking-->
+			<xs:enumeration value="394"/> <!--Wawaunesa-->
+			<xs:enumeration value="395"/> <!--Wellington-->
+			<xs:enumeration value="396"/> <!--Wellpoint-->
+			<xs:enumeration value="397"/> <!--West American-->
+			<xs:enumeration value="398"/> <!--West Bend Mutual-->
+			<xs:enumeration value="399"/> <!--West Field-->
+			<xs:enumeration value="400"/> <!--West Plains-->
+			<xs:enumeration value="401"/> <!--Western and Southern Life-->
+			<xs:enumeration value="402"/> <!--Western Mutual-->
+			<xs:enumeration value="403"/> <!--Western National-->
+			<xs:enumeration value="404"/> <!--Western Southern Life-->
+			<xs:enumeration value="405"/> <!--Westfield-->
+			<xs:enumeration value="406"/> <!--William Penn-->
+			<xs:enumeration value="407"/> <!--Windsor-->
+			<xs:enumeration value="408"/> <!--Windstar-->
+			<xs:enumeration value="409"/> <!--Wisconsin Mutual-->
+			<xs:enumeration value="410"/> <!--Woodlands Financial Group-->
+			<xs:enumeration value="411"/> <!--Workmans Auto-->
+			<xs:enumeration value="412"/> <!--World Insurance-->
+			<xs:enumeration value="413"/> <!--Worldwide-->
+			<xs:enumeration value="414"/> <!--Yellow Key-->
+			<xs:enumeration value="415"/> <!--Yosemite-->
+			<xs:enumeration value="416"/> <!--Zurich North America-->
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>
